@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form method="post" action="{% url 'api:login_user' %}">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br><br>
+        {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+        <button type="submit">Login</button>
+    </form>
+</body>
+<!-- Assuming this is in a base template that’s included on each page -->
+<nav>
+    <ul>
+        <li><a href="{% url 'api:login_user' %}">Login</a></li>
+        <li><a href="{% url 'api:register_user' %}">Register</a></li>
+        <li><a href="{% url 'api:delete_user' %}">Delete Account</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'api:display_user' %}">User profile</a></li>
+            <li><a href="{% url 'api:logout_user' %}">Logout</a></li>
+        {% endif %}
+    </ul>
+</nav>
+</html>
+
