@@ -193,7 +193,7 @@
     <div class="login-container">
         <!-- Logo image -->
         <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Logo" class="spotify-logo">
-        
+
         <!-- Login title -->
         <h2 id="login-title">Sign In</h2>
 
@@ -202,7 +202,7 @@
             {% csrf_token %}
             <input type="text" id="username" name="username" class="input-field" placeholder="Username" required>
             <input type="password" id="password" name="password" class="input-field" placeholder="Password" required>
-            
+
             {% if error_message %}
                 <p style="color: red;">{{ error_message }}</p>
             {% endif %}

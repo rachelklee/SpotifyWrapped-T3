@@ -191,7 +191,7 @@
     <div class="register-container">
         <!-- Logo image -->
         <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Logo" class="spotify-logo">
-        
+
         <!-- Register title -->
         <h2 id="register-title">Register</h2>
 
@@ -202,11 +202,11 @@
             <input type="password" id="password" name="password" class="input-field" placeholder="Password" required>
             <input type="text" id="client_id" name="client_id" class="input-field" placeholder="Client ID" required>
             <input type="text" id="client_secret" name="client_secret" class="input-field" placeholder="Client Secret" required>
-            
+
             {% if error_message %}
                 <p style="color: red;">{{ error_message }}</p>
             {% endif %}
-            
+
             <button type="submit" id="register-button" class="register-button">Register</button>
         </form>
 
