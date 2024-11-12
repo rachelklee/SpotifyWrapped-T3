@@ -2,36 +2,303 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        /* Global styles */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #bfbfbf;
+            position: relative;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        /* Halloween mode styles */
+        body.halloween-mode {
+            background-color: #2c003e;
+            color: #ff7518;
+        }
+
+        /* Top-right controls */
+        .top-right-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        /* Color mode selector dropdown */
+        .color-mode-selector select {
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            background-color: #1ed760;
+            color: #ffffff;
+        }
+
+        .language-selector select {
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            background-color: #1ed760;
+            color: #ffffff;
+        }
+
+        /* Login container */
+        .login-container {
+            background-color: #1c1c1c;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+            transition: background-color 0.3s;
+        }
+
+        /* Dark mode styles for login container */
+        .dark-mode .login-container {
+            background-color: #333;
+        }
+
+        /* Halloween mode styles for login container */
+        .halloween-mode .login-container {
+            background-color: #3b0050;
+        }
+
+        /* Spotify logo */
+        .spotify-logo {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        /* Title styles */
+        h2 {
+            color: #ffffff;
+            margin: 0 0 20px;
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: #1ed760;
+            margin: 8px auto 0;
+        }
+
+        /* Form container */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Input fields */
+        .input-field {
+            width: 80%;
+            max-width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 25px;
+            background-color: #e0e0e0;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* Dark mode input field style */
+        .dark-mode .input-field {
+            background-color: #555;
+            color: #ffffff;
+        }
+
+        /* Halloween mode input field style */
+        .halloween-mode .input-field {
+            background-color: #ff7518;
+            color: #2c003e;
+        }
+
+        /* Login button */
+        .login-button {
+            width: 80%;
+            max-width: 300px;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 25px;
+            background-color: #1ed760;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .login-button:hover {
+            background-color: #17b54d;
+        }
+
+        /* Register link */
+        .register-link {
+            margin-top: 20px;
+            color: #a0a0a0;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="post" action="{% url 'api:login_user' %}">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br><br>
+    <!-- Top-right controls for language selection and color mode -->
+    <div class="top-right-controls">
+        <div class="language-selector">
+            <select id="language" onchange="onLanguageChange()">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="tr">Türkçe</option>
+            </select>
+        </div>
+        <div class="color-mode-selector">
+            <select id="color-mode" onchange="onColorModeChange()">
+                <option value="light">Light Mode</option>
+                <option value="dark">Dark Mode</option>
+                <option value="halloween">Halloween Mode</option>
+            </select>
+        </div>
+    </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br><br>
-        {% if error_message %}
-            <p style="color: red;">{{ error_message }}</p>
-        {% endif %}
-        <button type="submit">Login</button>
-    </form>
+    <div class="login-container">
+        <!-- Logo image -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Logo" class="spotify-logo">
+        
+        <!-- Login title -->
+        <h2 id="login-title">Sign In</h2>
+
+        <!-- Login form -->
+        <form method="post" action="{% url 'api:login_user' %}">
+            {% csrf_token %}
+            <input type="text" id="username" name="username" class="input-field" placeholder="Username" required>
+            <input type="password" id="password" name="password" class="input-field" placeholder="Password" required>
+            
+            {% if error_message %}
+                <p style="color: red;">{{ error_message }}</p>
+            {% endif %}
+
+            <button type="submit" id="login-button" class="login-button">Sign In</button>
+        </form>
+
+        <!-- Register link -->
+        <a href="{% url 'api:register_user' %}" id="register-link" class="register-link">Don't have an account? Sign Up</a>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                title: "Sign In",
+                usernamePlaceholder: "Username",
+                passwordPlaceholder: "Password",
+                signInButton: "Sign In",
+                registerLink: "Don't have an account? Sign Up"
+            },
+            es: {
+                title: "Iniciar Sesión",
+                usernamePlaceholder: "Nombre de usuario",
+                passwordPlaceholder: "Contraseña",
+                signInButton: "Iniciar sesión",
+                registerLink: "¿No tienes una cuenta? Regístrate"
+            },
+            fr: {
+                title: "Connexion",
+                usernamePlaceholder: "Nom d'utilisateur",
+                passwordPlaceholder: "Mot de passe",
+                signInButton: "Se connecter",
+                registerLink: "Vous n'avez pas de compte? Inscrivez-vous"
+            },
+            de: {
+                title: "Anmelden",
+                usernamePlaceholder: "Benutzername",
+                passwordPlaceholder: "Passwort",
+                signInButton: "Anmelden",
+                registerLink: "Kein Konto? Registrieren"
+            },
+            tr: {
+                title: "Giriş Yap",
+                usernamePlaceholder: "Kullanıcı Adı",
+                passwordPlaceholder: "Şifre",
+                signInButton: "Giriş Yap",
+                registerLink: "Hesabınız yok mu? Kaydolun"
+            }
+        };
+
+        // Set the language according to selected language from localStorage
+        function setLanguage(language) {
+            const translation = translations[language];
+
+            document.getElementById("login-title").innerText = translation.title;
+            document.getElementById("username").placeholder = translation.usernamePlaceholder;
+            document.getElementById("password").placeholder = translation.passwordPlaceholder;
+            document.getElementById("login-button").innerText = translation.signInButton;
+            document.getElementById("register-link").innerText = translation.registerLink;
+            document.getElementById("language").value = language;
+        }
+
+        // Handle the language change event
+        function onLanguageChange() {
+            const selectedLanguage = document.getElementById("language").value;
+            localStorage.setItem("language", selectedLanguage); // Save the selected language
+            setLanguage(selectedLanguage); // Apply the selected language
+        }
+
+        // Set color mode based on saved mode in localStorage
+        function setColorMode() {
+            const mode = localStorage.getItem("color-mode") || "light";
+            document.body.classList.remove("dark-mode", "halloween-mode");
+
+            if (mode === "dark") {
+                document.body.classList.add("dark-mode");
+            } else if (mode === "halloween") {
+                document.body.classList.add("halloween-mode");
+            }
+
+            document.getElementById("color-mode").value = mode;
+        }
+
+        // Handle the color mode change event
+        function onColorModeChange() {
+            const mode = document.getElementById("color-mode").value;
+            localStorage.setItem("color-mode", mode); // Save the selected mode
+            setColorMode(); // Apply the selected mode
+        }
+
+        // Initialize default language and color mode on page load
+        window.onload = function() {
+            const savedLanguage = localStorage.getItem("language") || "en";
+            setLanguage(savedLanguage); // Apply saved language
+            setColorMode();
+        };
+    </script>
 </body>
-<!-- Assuming this is in a base template that’s included on each page -->
-<nav>
-    <ul>
-        <li><a href="{% url 'api:login_user' %}">Login</a></li>
-        <li><a href="{% url 'api:register_user' %}">Register</a></li>
-        <li><a href="{% url 'api:delete_user' %}">Delete Account</a></li>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'api:display_user' %}">User profile</a></li>
-            <li><a href="{% url 'api:logout_user' %}">Logout</a></li>
-        {% endif %}
-    </ul>
-</nav>
 </html>
-

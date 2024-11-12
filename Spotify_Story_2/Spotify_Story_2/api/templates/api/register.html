@@ -2,40 +2,310 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <style>
+        /* Global styles */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #bfbfbf;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        body.halloween-mode {
+            background-color: #2c003e;
+            color: #ff7518;
+        }
+
+        /* Top-right corner controls */
+        .top-right-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        /* Color mode selector dropdown */
+        .color-mode-selector select {
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            background-color: #1ed760;
+            color: #ffffff;
+        }
+
+        /* Language selector dropdown */
+        .language-selector select {
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            background-color: #1ed760;
+            color: #ffffff;
+        }
+
+        /* Container for the registration box */
+        .register-container {
+            background-color: #1c1c1c;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+            transition: background-color 0.3s;
+        }
+
+        /* Dark mode styles for register container */
+        .dark-mode .register-container {
+            background-color: #333;
+        }
+        /* Halloween mode styles for register container */
+        .halloween-mode .register-container {
+            background-color: #3b0050;
+        }
+
+        /* Spotify logo */
+        .spotify-logo {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        /* Title styles */
+        h2 {
+            color: #ffffff;
+            margin: 0 0 20px;
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: #1ed760;
+            margin: 8px auto 0;
+        }
+
+        /* Form container */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Input fields */
+        .input-field {
+            width: 80%;
+            max-width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 25px;
+            background-color: #e0e0e0;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* Dark mode input field style */
+        .dark-mode .input-field {
+            background-color: #555;
+            color: #ffffff;
+        }
+
+        /* Halloween mode input field style */
+        .halloween-mode .input-field {
+            background-color: #ff7518;
+            color: #2c003e;
+        }
+
+        /* Register button */
+        .register-button {
+            width: 80%;
+            max-width: 300px;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 25px;
+            background-color: #1ed760;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .register-button:hover {
+            background-color: #17b54d;
+        }
+
+        /* Login link */
+        .login-link {
+            margin-top: 20px;
+            color: #a0a0a0;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Register</h2>
-    <form method="post" action="{% url 'api:register_user' %}">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br><br>
-        <label for="client_id">client_id:</label>
-        <input type="text" id="client_id" name="client_id" required>
-        <br><br>
-        <label for="client_secret">client_secret:</label>
-        <input type="text" id="client_secret" name="client_secret" required>
-        <br><br>
-        {% if error_message %}
-            <p style="color: red;">{{ error_message }}</p>
-        {% endif %}
-        <button type="submit">Register</button>
-    </form>
+    <!-- Top-right controls for language selection and dark mode -->
+    <div class="top-right-controls">
+        <div class="language-selector">
+            <select id="language" onchange="onLanguageChange()">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="tr">Türkçe</option>
+            </select>
+        </div>
+        <div class="color-mode-selector">
+            <select id="color-mode" onchange="onColorModeChange()">
+                <option value="light">Light Mode</option>
+                <option value="dark">Dark Mode</option>
+                <option value="halloween">Halloween Mode</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="register-container">
+        <!-- Logo image -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Logo" class="spotify-logo">
+        
+        <!-- Register title -->
+        <h2 id="register-title">Register</h2>
+
+        <!-- Register form -->
+        <form method="post" action="{% url 'api:register_user' %}">
+            {% csrf_token %}
+            <input type="text" id="username" name="username" class="input-field" placeholder="Username" required>
+            <input type="password" id="password" name="password" class="input-field" placeholder="Password" required>
+            <input type="text" id="client_id" name="client_id" class="input-field" placeholder="Client ID" required>
+            <input type="text" id="client_secret" name="client_secret" class="input-field" placeholder="Client Secret" required>
+            
+            {% if error_message %}
+                <p style="color: red;">{{ error_message }}</p>
+            {% endif %}
+            
+            <button type="submit" id="register-button" class="register-button">Register</button>
+        </form>
+
+        <!-- Login link -->
+        <a href="{% url 'api:login_user' %}" id="login-link" class="login-link">Already have an account? Sign In</a>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                title: "Register",
+                usernamePlaceholder: "Username",
+                passwordPlaceholder: "Password",
+                clientIdPlaceholder: "Client ID",
+                clientSecretPlaceholder: "Client Secret",
+                registerButton: "Register",
+                loginLink: "Already have an account? Sign In"
+            },
+            es: {
+                title: "Registrar",
+                usernamePlaceholder: "Nombre de usuario",
+                passwordPlaceholder: "Contraseña",
+                clientIdPlaceholder: "ID de Cliente",
+                clientSecretPlaceholder: "Secreto de Cliente",
+                registerButton: "Registrarse",
+                loginLink: "¿Ya tienes una cuenta? Iniciar Sesión"
+            },
+            fr: {
+                title: "Inscription",
+                usernamePlaceholder: "Nom d'utilisateur",
+                passwordPlaceholder: "Mot de passe",
+                clientIdPlaceholder: "ID Client",
+                clientSecretPlaceholder: "Secret Client",
+                registerButton: "S'inscrire",
+                loginLink: "Vous avez déjà un compte? Connectez-vous"
+            },
+            de: {
+                title: "Registrieren",
+                usernamePlaceholder: "Benutzername",
+                passwordPlaceholder: "Passwort",
+                clientIdPlaceholder: "Kunden-ID",
+                clientSecretPlaceholder: "Kundenschlüssel",
+                registerButton: "Registrieren",
+                loginLink: "Sie haben bereits ein Konto? Anmelden"
+            },
+            tr: {
+                title: "Kayıt Ol",
+                usernamePlaceholder: "Kullanıcı Adı",
+                passwordPlaceholder: "Şifre",
+                clientIdPlaceholder: "Müşteri Kimliği",
+                clientSecretPlaceholder: "Müşteri Anahtarı",
+                registerButton: "Kayıt Ol",
+                loginLink: "Zaten bir hesabınız var mı? Giriş Yap"
+            }
+        };
+
+        function setLanguage(language) {
+            const translation = translations[language];
+
+            document.getElementById("register-title").innerText = translation.title;
+            document.getElementById("username").placeholder = translation.usernamePlaceholder;
+            document.getElementById("password").placeholder = translation.passwordPlaceholder;
+            document.getElementById("client_id").placeholder = translation.clientIdPlaceholder;
+            document.getElementById("client_secret").placeholder = translation.clientSecretPlaceholder;
+            document.getElementById("register-button").innerText = translation.registerButton;
+            document.getElementById("login-link").innerText = translation.loginLink;
+            document.getElementById("language").value = language;
+        }
+
+        function onLanguageChange() {
+            const selectedLanguage = document.getElementById("language").value;
+            localStorage.setItem("language", selectedLanguage); // Save the selected language
+            setLanguage(selectedLanguage); // Apply the selected language immediately
+        }
+
+        function setColorMode() {
+            const mode = localStorage.getItem("color-mode") || "light"; // Default to light mode
+            document.body.classList.remove("dark-mode", "halloween-mode");
+
+            if (mode === "dark") {
+                document.body.classList.add("dark-mode");
+            } else if (mode === "halloween") {
+                document.body.classList.add("halloween-mode");
+            }
+            document.getElementById("color-mode").value = mode;
+        }
+
+        function onColorModeChange() {
+            const mode = document.getElementById("color-mode").value;
+            localStorage.setItem("color-mode", mode); // Save the selected mode
+            setColorMode(); // Apply the selected mode
+        }
+
+        // Initialize default language (English) and apply saved color mode
+        window.onload = function() {
+            const savedLanguage = localStorage.getItem("language") || "en";
+            setLanguage(savedLanguage); // Apply saved language
+            setColorMode();
+        };
+    </script>
 </body>
-<!-- Assuming this is in a base template that’s included on each page -->
-<nav>
-    <ul>
-        <li><a href="{% url 'api:login_user' %}">Login</a></li>
-        <li><a href="{% url 'api:register_user' %}">Register</a></li>
-        <li><a href="{% url 'api:delete_user' %}">Delete Account</a></li>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'api:display_user' %}">User profile</a></li>
-            <li><a href="{% url 'api:logout_user' %}">Logout</a></li>
-        {% endif %}
-    </ul>
-</nav>
 </html>
