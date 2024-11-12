@@ -103,10 +103,12 @@ def display_user(request):
         try:
             spotify_account = SpotifyAccount.objects.get(user=user)
             spotify_wraps = spotify_account.wraps
+            #halloween_wrap = spotify_account.halloweenwrap
         except SpotifyAccount.DoesNotExist:
             spotify_wraps = None  # Handle case where there is no Spotify account
     else:
         spotify_wraps = None  # Handle case where user is not logged in
+        #halloween_wrap = None
 
     wraps_list = []
     if (spotify_wraps != None):
@@ -115,7 +117,41 @@ def display_user(request):
             artist = item.get('album').get('artists')[0].get('name')
             print(album + " : " + artist)
             wraps_list.append(album + " : " + artist)
+        # if (halloween_wrap != None):
+        #     for i, j in enumerate(halloween_wrap['tracks']):
+        #         track_name = j['name']
+        #         artist_name = j['artists'][0]['name']
+        #         link = j['artists'][0]['external_urls']['spotify']
+        #         #reccs = [track_name, artist_name, link]
+        #         print(track_name + " : " + artist_name)
+        #         wraps_list.append(track_name+ " : " + artist_name + " : " + link)
+        #         #wraps_list.append(reccs)
     return render(request, 'api/display_user.html', {'user': user, 'wraps_list': wraps_list})
+
+
+@login_required
+def get_halloween_wrap(request):
+    user = request.user
+    if request.user.is_authenticated:  # Ensure the user is logged in
+        user = request.user
+        try:
+            spotify_account = SpotifyAccount.objects.get(user=user)
+            halloween_wrap = spotify_account.halloweenwrap
+        except SpotifyAccount.DoesNotExist:
+            spotify_wraps = None  # Handle case where there is no Spotify account
+    else:
+        halloween_wrap = None
+    halloween_list = []
+    if (halloween_wrap != None):
+        for i, j in enumerate(halloween_wrap['tracks']):
+            track_name = j['name']
+            artist_name = j['artists'][0]['name']
+            link = j['artists'][0]['external_urls']['spotify']
+
+            print(track_name + " : " + artist_name)
+            halloween_list.append(track_name + " : " + artist_name + " : " + link)
+
+    return render(request, 'api/halloween_wrap.html',{'user': user, 'halloween_list': halloween_list} )
 
 
 def main(request):

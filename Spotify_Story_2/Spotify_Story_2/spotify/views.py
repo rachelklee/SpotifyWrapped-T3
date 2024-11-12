@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from Spotify_Story_2.settings import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI
-from .models import SpotifyAccount, SpotifyWrap
+from .models import SpotifyAccount, SpotifyWrap, HalloweenWrap
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 import requests
@@ -81,3 +81,26 @@ def refresh_token(spotify_account):
     spotify_account.access_token = response_data['access_token']
     spotify_account.token_expires = timezone.now() + datetime.timedelta(seconds=response_data['expires_in'])
     spotify_account.save()
+
+@login_required
+def generate_halloween_wrap(request):
+    # Fetch and display Spotify data
+    user = request.user
+    spotify_account = SpotifyAccount.objects.get(user=user)
+    if spotify_account.token_expires < timezone.now():
+        refresh_token(spotify_account)  # Refresh the token if it's expired
+
+    headers = {
+        "Authorization": f"Bearer {spotify_account.access_token}"
+    }
+    #top_tracks_url = 'https://api.spotify.com/v1/recommendations?limit=100&seed_artists=4OfDxabDQVhfThUuSS19za%2C3EhbVgyfGd7HkpsagwL9GS&seed_genres=holiday&seed_tracks=03IfOJU0iezVObo70XlQoL%2C6Z36wt7oo6xm2uGN00PnTq%2C3mhsDyQpX2L8sJMdWUHOi3'
+    top_tracks_url = 'https://api.spotify.com/v1/recommendations?limit=10&seed_tracks=7swocJUCUWTCiRUAU9oerC%2C23V08GxMeaZNSf8Gy6KF6t%2C01YROQCnF1AQm7SCWJmD2o'
+    response = requests.get(top_tracks_url, headers=headers)
+    wrap_data = response.json()
+    spotify_account.halloweenwrap = wrap_data;
+    spotify_account.halloweenwrap.save()
+
+    # Save wrap data
+    HalloweenWrap.objects.create(user=user, hwrap_data= wrap_data)
+    #return render(request, 'api/display_user.html', {'wrap_data': wrap_data})
+    return redirect('api:display_user')

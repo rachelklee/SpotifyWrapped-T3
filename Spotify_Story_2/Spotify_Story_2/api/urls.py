@@ -13,4 +13,6 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout_user'),
     path('profile/', views.display_user, name='display_user'),
     path('delete_wraps/', views.delete_wraps, name='delete_wraps'),
+    path('get_halloween_wrap/', views.get_halloween_wrap, name='get_halloween_wrap'),
+
 ]

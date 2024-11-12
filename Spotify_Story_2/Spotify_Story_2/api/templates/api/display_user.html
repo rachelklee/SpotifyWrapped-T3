@@ -26,6 +26,9 @@
         {% csrf_token %}
         <button type="submit">Get Wraps</button>
     </form>
+    <a href="{% url 'api:get_halloween_wrap' %}">
+        <button>Go to Halloween Wrap</button>
+    </a>
 </body>
 <!-- Assuming this is in a base template that’s included on each page -->
 <nav>

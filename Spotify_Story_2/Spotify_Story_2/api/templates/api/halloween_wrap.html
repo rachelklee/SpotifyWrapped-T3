@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <title>Halloween Wrap</title>
+</head>
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+    <h2>User Profile</h2>
+    <table border="1">
+        <tr>
+            <th>Username</th>
+            <td>{{ user.username }}</td>
+        </tr>
+    </table>
+    <u1>
+        {% for item in halloween_list %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </u1>
+    <form method="post" action="{% url 'api:delete_wraps' %}">
+        {% csrf_token %}
+        <button type="submit">Delete Wraps</button>
+    </form>
+    <form method="post" action="{% url 'spotify:generate_wrap' %}">
+        {% csrf_token %}
+        <button type="submit">Get Wraps</button>
+    </form>
+    <a href="{% url 'api:get_halloween_wrap' %}">
+        <button>Go to Halloween Wrap</button>
+    </a>
+</body>
