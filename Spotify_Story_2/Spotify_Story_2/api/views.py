@@ -115,8 +115,13 @@ def display_user(request):
         for item in spotify_wraps.get('items'):
             album = item.get('album').get('name')
             artist = item.get('album').get('artists')[0].get('name')
+            preview_url = item.get('preview_url')  # Get the 30-second preview URL
             print(album + " : " + artist)
-            wraps_list.append(album + " : " + artist)
+            wraps_list.append({
+                'album': album,
+                'artist': artist,
+                'preview_url': preview_url  # Include the preview URL
+            })
         # if (halloween_wrap != None):
         #     for i, j in enumerate(halloween_wrap['tracks']):
         #         track_name = j['name']
@@ -126,7 +131,9 @@ def display_user(request):
         #         print(track_name + " : " + artist_name)
         #         wraps_list.append(track_name+ " : " + artist_name + " : " + link)
         #         #wraps_list.append(reccs)
+
     return render(request, 'api/display_user.html', {'user': user, 'wraps_list': wraps_list})
+
 
 
 # @login_required
