@@ -91,10 +91,13 @@ def generate_halloween_wrap(request):
         refresh_token(spotify_account)  # Refresh the token if it's expired
 
     headers = {
+        "Content-Type": "application/json",
         "Authorization": f"Bearer {spotify_account.access_token}"
     }
-    #top_tracks_url = 'https://api.spotify.com/v1/recommendations?limit=100&seed_artists=4OfDxabDQVhfThUuSS19za%2C3EhbVgyfGd7HkpsagwL9GS&seed_genres=holiday&seed_tracks=03IfOJU0iezVObo70XlQoL%2C6Z36wt7oo6xm2uGN00PnTq%2C3mhsDyQpX2L8sJMdWUHOi3'
-    top_tracks_url = 'https://api.spotify.com/v1/recommendations?limit=10&seed_tracks=7swocJUCUWTCiRUAU9oerC%2C23V08GxMeaZNSf8Gy6KF6t%2C01YROQCnF1AQm7SCWJmD2o'
+    top_tracks_url = 'https://api.spotify.com/v1/recommendations?limit=100&seed_artists=4OfDxabDQVhfThUuSS19za%2C3EhbVgyfGd7HkpsagwL9GS&seed_genres=holiday&seed_tracks=03IfOJU0iezVObo70XlQoL%2C6Z36wt7oo6xm2uGN00PnTq%2C3mhsDyQpX2L8sJMdWUHOi3'
+    #top_tracks_url = 'https://api.spotify.com/v1/recommendations?limit=10&seed_tracks=7swocJUCUWTCiRUAU9oerC%2C23V08GxMeaZNSf8Gy6KF6t%2C01YROQCnF1AQm7SCWJmD2o'
+    #top_tracks_url = 'https://api.spotify.com/v1/recommendations?seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_genres=classical%2Ccountry&seed_tracks=0c6xIDDpzE81m2q797ordA'
+    #top_tracks_url = "https://api.spotify.com/v1/recommendations?"
     response = requests.get(top_tracks_url, headers=headers)
     wrap_data = response.json()
     spotify_account.halloweenwrap = wrap_data;
@@ -103,4 +106,4 @@ def generate_halloween_wrap(request):
     # Save wrap data
     HalloweenWrap.objects.create(user=user, hwrap_data= wrap_data)
     #return render(request, 'api/display_user.html', {'wrap_data': wrap_data})
-    return redirect('api:display_user')
+    return redirect('spotify:display_user')
