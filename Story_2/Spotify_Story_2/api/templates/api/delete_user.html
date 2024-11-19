@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete User</title>
+</head>
+<body>
+    <h2>Delete User</h2>
+    <form method="post" action="{% url 'api:delete_user' %}">
+        {% csrf_token %}
+        <label for="username">Select a user to delete:</label>
+        <select id="username" name="username" required>
+            {% for user in users %}
+                <option value="{{ user.username }}">{{ user.username }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <button type="submit">Delete User</button>
+    </form>
+</body>
+<!-- Assuming this is in a base template that’s included on each page -->
+<nav>
+    <ul>
+        <li><a href="{% url 'api:login_user' %}">Login</a></li>
+        <li><a href="{% url 'api:register_user' %}">Register</a></li>
+        <li><a href="{% url 'api:delete_user' %}">Delete Account</a></li>
+        <li><a href="{% url 'api:display_user' %}">User profile</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'api:logout_user' %}">Logout</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+</html>
+

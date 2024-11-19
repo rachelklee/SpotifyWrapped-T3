@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+    <h2>User Profile</h2>
+    <table border="1">
+        <tr>
+            <th>Username</th>
+            <td>{{ user.username }}</td>
+        </tr>
+    </table>
+    <u1>
+        {% for item in wraps_list %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </u1>
+    <form method="post" action="{% url 'api:delete_wraps' %}">
+        {% csrf_token %}
+        <button type="submit">Delete Wraps</button>
+    </form>
+    <form method="post" action="{% url 'spotify:generate_wrap' %}">
+        {% csrf_token %}
+        <button type="submit">Get Wraps</button>
+    </form>
+    <form method="post" action="{% url 'spotify:generate_halloween_wrap' %}">
+        {% csrf_token %}
+        <button type="submit">Get Halloween Wrap</button>
+    </form>
+    <form method="post" action="{% url 'spotify:generate_christmas_wrap' %}">
+        {% csrf_token %}
+        <button type="submit">Get Christmas Wrap</button>
+    </form>
+    
+</body>
+<!-- Assuming this is in a base template that’s included on each page -->
+<nav>
+    <ul>
+        <li><a href="{% url 'api:login_user' %}">Login</a></li>
+        <li><a href="{% url 'api:register_user' %}">Register</a></li>
+        <li><a href="{% url 'api:delete_user' %}">Delete Account</a></li>
+        <li><a href="{% url 'api:display_user' %}">User profile</a></li>
+        
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'api:logout_user' %}">Logout</a></li>
+        {% endif %}
+    </ul>
+</nav>
+</html>
+</html>
