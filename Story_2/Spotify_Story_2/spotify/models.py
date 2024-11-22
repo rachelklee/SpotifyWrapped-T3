@@ -27,6 +27,21 @@ class SpotifyWrap(models.Model):
 
 
 class HalloweenWrap(models.Model):
+    """
+       A model to store personalized Halloween-themed Spotify wrap data for a user.
+
+       Attributes:
+           user (ForeignKey): A reference to the `User` model, linking the Halloween
+               wrap data to a specific user. Deletes the wrap data if the user is deleted.
+           halloween_wrap_data (JSONField): A field to store the wrap data in JSON format,
+               containing Spotify-generated Halloween-themed track recommendations or statistics.
+           date_created (DateTimeField): Automatically records the date and time when
+               the Halloween wrap data was created.
+
+       Usage:
+           This model is used to store and retrieve Halloween-themed Spotify wrap data
+           for individual users, allowing for customized seasonal music experiences.
+       """
     user = models.ForeignKey(User, on_delete= models.CASCADE)
     halloween_wrap_data = models.JSONField()
     date_created = models.DateTimeField(auto_now_add=True)
@@ -35,6 +50,21 @@ class HalloweenWrap(models.Model):
 
 
 class ChristmasWrap(models.Model):
+    """
+     A model to store personalized Christmas-themed Spotify wrap data for a user.
+
+     Attributes:
+         user (ForeignKey): A reference to the `User` model, linking the Christmas
+             wrap data to a specific user. Deletes the wrap data if the user is deleted.
+         christmas_wrap_data (JSONField): A field to store the wrap data in JSON format,
+             containing Spotify-generated Christmas-themed track recommendations or statistics.
+         date_created (DateTimeField): Automatically records the date and time when
+             the Christmas wrap data was created.
+
+     Usage:
+         This model is used to store and retrieve Christmas-themed Spotify wrap data
+         for individual users, enabling customized seasonal music experiences.
+     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     christmas_wrap_data = models.JSONField()
     date_created = models.DateTimeField(auto_now_add=True)
