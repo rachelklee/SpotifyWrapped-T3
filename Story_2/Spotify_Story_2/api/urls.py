@@ -15,4 +15,6 @@ urlpatterns = [
     path('halloween/', views.get_halloween_wrap, name='get_halloween_wrap'),
     path('christmas/', views.get_christmas_wrap, name = 'get_christmas_wrap'),
     path('delete_wraps/', views.delete_wraps, name='delete_wraps'),
+    path('contact/', views.contact, name='contact'),
+    path('top_songs/', views.top_songs, name='top_songs'),
 ]

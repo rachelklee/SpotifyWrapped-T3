@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        /* Global reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #bfbfbf;
+            color: #000;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121211;
+            color: #ffffff;
+        }
+
+        /* Halloween mode styles */
+        body.halloween-mode {
+            background-color: #2c003e;
+            color: #ff7518;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: #222;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        /* Spotify logo styles */
+        .logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Header title */
+        .header h1 {
+            color: #fff;
+            font-size: 20px;
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        /* Menu icon styles */
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 24px;
+            width: 36px;
+            cursor: pointer;
+        }
+
+        .menu-icon div {
+            background-color: #fff;
+            height: 4px;
+            width: 100%;
+        }
+
+        /* Dropdown menu styles */
+        .dropdown {
+            position: absolute;
+            top: 70px; /* Below the header */
+            right: 20px;
+            background-color: #333;
+            border-radius: 5px;
+            display: none;
+            flex-direction: column;
+            width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .dropdown a {
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            text-align: center;
+            border-bottom: 1px solid #444;
+        }
+
+        .dropdown a:hover {
+            background-color: #444;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        /* Main content area */
+        .main-content {
+            margin-top: 70px; /* Height of the fixed header */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+        }
+
+        /* Contact form */
+        .contact-form {
+            background-color: #1c1c1c;
+            padding: 30px;
+            margin-top: 10%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode .contact-form {
+            background-color: #333;
+            color: #ffffff;
+        }
+
+        body.halloween-mode .contact-form {
+            background-color: #3b0050;
+            color: #ff7518;
+        }
+
+        .contact-form h2 {
+            margin-bottom: 20px;
+        }
+
+        .contact-form textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #e0e0e0;
+            resize: none;
+            color: #000;
+        }
+
+        body.dark-mode .contact-form textarea {
+            background-color: #555;
+            color: #ffffff;
+        }
+
+        body.halloween-mode .contact-form textarea {
+            background-color: #ff7518;
+            color: #2c003e;
+        }
+
+        .contact-form button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1ed760;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .contact-form button:hover {
+            background-color: #17b54d;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <!-- Spotify Logo -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Logo" class="logo">
+
+        <!-- Contact Us Title -->
+        <h1>Contact Us</h1>
+
+        <!-- Menu Icon -->
+        <div class="menu-icon" onclick="toggleDropdown()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div class="dropdown" id="dropdownMenu">
+        <a href="display_user.html">Get Wrapped</a>
+        <a href="#">Another Option</a>
+        <a href="#">Contact Us</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Contact Form -->
+        <div class="contact-form">
+            <h2>Describe Your Issue</h2>
+            <form id="contactForm" action="#" method="GET" onsubmit="sendEmail(event)">
+                <textarea id="issue" name="issue" placeholder="Write your issue here..." required></textarea>
+                <button type="submit">Send Email</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle the dropdown menu visibility
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdownMenu');
+            dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // JavaScript function to handle form submission and send email
+        function sendEmail(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const issue = document.getElementById('issue').value; // Get the user's input
+            const recipientEmail = "support@example.com"; // Replace with your email address
+            const subject = encodeURIComponent("Customer Support Issue");
+            const body = encodeURIComponent(issue);
+
+            // Open the user's email client
+            window.location.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+        }
+
+        // Apply the current color mode from localStorage
+        function setColorMode() {
+            const mode = localStorage.getItem("color-mode") || "light";
+            document.body.classList.remove("dark-mode", "halloween-mode");
+            if (mode === "dark") {
+                document.body.classList.add("dark-mode");
+            } else if (mode === "halloween") {
+                document.body.classList.add("halloween-mode");
+            }
+        }
+
+        // Initialize color mode on page load
+        window.onload = function() {
+            setColorMode();
+        };
+    </script>
+</body>
+</html>

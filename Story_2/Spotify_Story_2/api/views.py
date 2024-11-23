@@ -113,14 +113,16 @@ def display_user(request):
 
     wraps_list = []
     if (spotify_wraps != None):
-        for item in spotify_wraps.get('items'):
+        for item in spotify_wraps.get('items')[:5]:
             album = item.get('album').get('name')
+            image = item.get('album').get('images')[0].get('url')
             artist = item.get('album').get('artists')[0].get('name')
             preview_url = item.get('preview_url')  # Get the 30-second preview URL
             print(album + " : " + artist)
             wraps_list.append({
                 'album': album,
                 'artist': artist,
+                'image': image,
                 'preview_url': preview_url  # Include the preview URL
             })
             # print(album + " : " + artist)
@@ -188,8 +190,11 @@ def get_christmas_wrap(request):
     return render(request, 'api/display_christmas.html', {'user': user, 'christmas_list': christmas_list})
 
 
+def contact(request):
+    return render(request, 'api/contact.html')
 
-
+def top_songs(request):
+    return render(request)
 
 def main(request):
     return create_user(request)
