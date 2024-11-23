@@ -142,6 +142,26 @@ def display_user(request):
 
 @login_required
 def get_halloween_wrap(request):
+    """
+       Retrieve and display the user's Halloween-themed Spotify wrap data.
+
+       This view fetches the user's stored Halloween wrap data from their linked Spotify account
+       and prepares it for display. It handles cases where the user is not authenticated or does
+       not have a linked Spotify account.
+
+       Args:
+           request (HttpRequest): The HTTP request object containing the current user.
+
+       Returns:
+           HttpResponse: Renders the `display_halloween.html` template with the Halloween wrap data.
+
+       Raises:
+           SpotifyAccount.DoesNotExist: If no Spotify account is linked to the user, an empty
+           Halloween wrap will be displayed.
+
+       """
+
+
     user = request.user
     halloween_list = []
 
@@ -168,6 +188,24 @@ def get_halloween_wrap(request):
 
 @login_required
 def get_christmas_wrap(request):
+    """
+       Retrieve and display the user's Christmas-themed Spotify wrap data.
+
+       This view fetches the user's stored Christmas wrap data from their linked Spotify account
+       and prepares it for display. If the user is not authenticated or does not have a linked
+       Spotify account, the function handles these cases gracefully.
+
+       Args:
+           request (HttpRequest): The HTTP request object containing the current user.
+
+       Returns:
+           HttpResponse: Renders the `display_christmas.html` template with the Christmas wrap data.
+
+       Raises:
+           SpotifyAccount.DoesNotExist: If no Spotify account is linked to the user, an empty
+           Christmas wrap will be displayed.
+
+       """
     user = request.user
     christmas_list = []
 

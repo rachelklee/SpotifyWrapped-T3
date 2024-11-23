@@ -83,6 +83,24 @@ def refresh_token(spotify_account):
     spotify_account.save()
 
 def generate_halloween_wrap(request):
+    """
+       Generate a personalized Halloween music wrap for the user.
+
+       This function retrieves Halloween-themed track recommendations from Spotify's API
+       using the user's linked Spotify account. It updates the stored data and creates
+       a new `HalloweenWrap` database entry for future retrieval.
+
+       Args:
+           request (HttpRequest): The HTTP request object containing the current user.
+
+       Returns:
+           HttpResponseRedirect: Redirects the user to the 'api:get_halloween_wrap' URL.
+
+       Raises:
+           SpotifyAccount.DoesNotExist: If no Spotify account is linked to the user.
+           requests.exceptions.RequestException: If the Spotify API request fails.
+       """
+
     user = request.user
     spotify_account = SpotifyAccount.objects.get(user=user)
     spotify_account.refresh_from_db()
@@ -108,6 +126,23 @@ def generate_halloween_wrap(request):
 
 
 def generate_christmas_wrap(request):
+    """
+        Generate a personalized Christmas music wrap for the user.
+
+        This function fetches holiday-themed track recommendations from Spotify's API
+        using the user's linked Spotify account, updates the account's stored data,
+        and saves the results to the database for future retrieval.
+
+        Args:
+            request (HttpRequest): The HTTP request object containing the current user.
+
+        Returns:
+            HttpResponseRedirect: Redirects the user to the 'api:get_christmas_wrap' URL.
+
+        Raises:
+            SpotifyAccount.DoesNotExist: If no Spotify account is linked to the user.
+            requests.exceptions.RequestException: If the Spotify API request fails.
+        """
     user = request.user
     spotify_account = SpotifyAccount.objects.get(user=user)
     spotify_account.refresh_from_db()
