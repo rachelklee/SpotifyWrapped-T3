@@ -26,13 +26,44 @@
       width: 40%;
       text-align: left;
       padding-left: 20px;
+        overflow: hidden; /* Ensures scrolling text stays inside the container */
+        position: relative;
+  height: 100%; /* Ensures the container has a fixed height */
     }
+
+   .scroll-wrapper {
+  display: flex;
+  flex-direction: column;
+  animation: scroll-continuous 10s linear infinite; /* Animation duration and seamless loop */
+}
+
+@keyframes scroll-continuous {
+  0% {
+    transform: translateY(0); /* Start position */
+  }
+  100% {
+    transform: translateY(-50%); /* Moves up by one full height of the content */
+  }
+}
+
+.scroll-content {
+  display: flex;
+  flex-direction: column;
+}
 
     .left-section h1 {
       font-size: 4rem;
       margin: 10px 0;
       color: magenta;
     }
+
+    .left-section h1:nth-child(odd) {
+    color: black;
+  }
+
+  .left-section h1:nth-child(even) {
+    color: magenta;
+  }
 
     .right-section {
       width: 60%;
@@ -155,21 +186,40 @@
 <body>
   <div class="slideshow-container">
     <div class="left-section">
+          <div class="scroll-animation">
+      <div class="scroll-wrapper">
+    <!-- First copy of the text -->
+    <div class="scroll-content">
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
       <h1>Your top songs</h1>
         <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+    </div>
+    <!-- Second copy of the text for seamless looping -->
+    <div class="scroll-content">
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
         <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+      <h1>Your top songs</h1>
+    </div>
+  </div>
+</div>
     </div>
 
     <div class="right-section">
