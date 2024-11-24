@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Artist</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #c850ff;
+      color: black;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Create a container for the cyan squares */
+    .cyan-squares {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* Allow clicks to pass through the squares */
+    }
+
+    /* Style for individual cyan square blocks */
+    .cyan-square {
+      position: absolute;
+      background-color: cyan;
+      width: 50px;
+      height: 50px;
+      opacity: 0.7;
+      animation: move 5s infinite ease-in-out;
+    }
+
+    /* Randomly position and animate the squares */
+    @keyframes move {
+      0% {
+        transform: translateY(0) translateX(0);
+      }
+      50% {
+        transform: translateY(-50px) translateX(50px);
+      }
+      100% {
+        transform: translateY(0) translateX(0);
+      }
+    }
+
+    .cyan-square:nth-child(1) { top: 10%; left: 20%; width: 40px; height: 40px; animation-delay: 0s; }
+    .cyan-square:nth-child(2) { top: 30%; left: 80%; width: 60px; height: 60px; animation-delay: 0.5s; }
+    .cyan-square:nth-child(3) { top: 50%; left: 60%; width: 35px; height: 35px; animation-delay: 1s; }
+    .cyan-square:nth-child(4) { top: 80%; left: 10%; width: 50px; height: 50px; animation-delay: 1.5s; }
+    .cyan-square:nth-child(5) { top: 15%; left: 70%; width: 30px; height: 30px; animation-delay: 2s; }
+    .cyan-square:nth-child(6) { top: 40%; left: 10%; width: 60px; height: 60px; animation-delay: 2.5s; }
+    .cyan-square:nth-child(7) { top: 60%; left: 30%; width: 50px; height: 50px; animation-delay: 3s; }
+    .cyan-square:nth-child(8) { top: 25%; left: 50%; width: 40px; height: 40px; animation-delay: 3.5s; }
+    .cyan-square:nth-child(9) { top: 70%; left: 20%; width: 30px; height: 30px; animation-delay: 4s; }
+    .cyan-square:nth-child(10) { top: 10%; left: 40%; width: 50px; height: 50px; animation-delay: 4.5s; }
+    .cyan-square:nth-child(11) { top: 50%; left: 80%; width: 35px; height: 35px; animation-delay: 5s; }
+    .cyan-square:nth-child(12) { top: 30%; left: 10%; width: 60px; height: 60px; animation-delay: 5.5s; }
+    .cyan-square:nth-child(13) { top: 60%; left: 10%; width: 50px; height: 50px; animation-delay: 6s; }
+    .cyan-square:nth-child(14) { top: 20%; left: 60%; width: 45px; height: 45px; animation-delay: 6.5s; }
+    .cyan-square:nth-child(15) { top: 50%; left: 20%; width: 50px; height: 50px; animation-delay: 7s; }
+    .cyan-square:nth-child(16) { top: 30%; left: 40%; width: 60px; height: 60px; animation-delay: 7.5s; }
+    .cyan-square:nth-child(17) { top: 70%; left: 70%; width: 40px; height: 40px; animation-delay: 8s; }
+    .cyan-square:nth-child(18) { top: 60%; left: 90%; width: 50px; height: 50px; animation-delay: 8.5s; }
+    .cyan-square:nth-child(19) { top: 10%; left: 10%; width: 35px; height: 35px; animation-delay: 9s; }
+    .cyan-square:nth-child(20) { top: 80%; left: 80%; width: 30px; height: 30px; animation-delay: 9.5s; }
+
+    /* Your existing card container */
+    .container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      position: relative;
+      width: 400px;
+      height: 600px;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .card img {
+      width: 100%;
+      height: 60%;
+      object-fit: cover;
+      border-bottom: 5px solid #4ee44e;
+    }
+
+    .card .content {
+      padding: 20px;
+    }
+
+    .card h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      color: #000;
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      font-weight: normal;
+      margin: 10px 0;
+      color: #555;
+    }
+
+    .card .cta {
+      margin-top: 20px;
+    }
+
+    .card .cta button {
+      background-color: #4ee44e;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .card .cta button:hover {
+      background-color: #35c935;
+    }
+
+    .progress {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background cyan squares -->
+  <div class="cyan-squares">
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+      <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+      <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+      <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+      <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+    <div class="cyan-square"></div>
+  </div>
+
+  <!-- Main content -->
+  <div class="container">
+    {% if single_wraps_list %}
+    <div class="card">
+      <img src="{{ single_wraps_list.image }}" alt="{{ single_wraps_list.artist }}">
+      <div class="content">
+        <h1>You’re One of {{ single_wraps_list.artist }}'s Biggest Fans</h1>
+        <h2>You're among their top fans worldwide</h2>
+        <p>Hit play on the radio and enjoy an endless stream of their music</p>
+        <div class="cta">
+          <button id="play-button" onclick="togglePlayPause('{{ single_wraps_list.preview_url }}')">▶ Play</button>
+          <div class="progress" id="progress">0:00 / 0:30</div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p>No data available. Please log in to see your top artist.</p>
+    {% endif %}
+  </div>
+
+  <!-- Hidden Audio Player -->
+  <audio id="audio-control" style="display: none;">
+    <source id="audio-source" src="" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const audioControl = document.getElementById('audio-control');
+    const audioSource = document.getElementById('audio-source');
+    const playButton = document.getElementById('play-button');
+    const progress = document.getElementById('progress');
+    let isPlaying = false;
+
+    function togglePlayPause(previewUrl) {
+      // If a new song is selected, set the source and reload the audio
+      if (audioSource.src !== previewUrl) {
+        audioSource.src = previewUrl;
+        audioControl.load();
+        isPlaying = false; // Reset playing state
+      }
+
+      // Toggle play/pause
+      if (isPlaying) {
+        audioControl.pause();
+        playButton.textContent = '▶ Play';
+      } else {
+        audioControl.play();
+        playButton.textContent = '⏸ Pause';
+      }
+
+      // Update playing state
+      isPlaying = !isPlaying;
+
+      // Update the progress bar
+      audioControl.addEventListener('timeupdate', () => {
+        const currentTime = Math.floor(audioControl.currentTime);
+        const duration = Math.floor(audioControl.duration) || 30; // Fallback for unknown duration
+        progress.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+      });
+
+      // Reset button state when playback ends
+      audioControl.addEventListener('ended', () => {
+        playButton.textContent = '▶ Play';
+        isPlaying = false;
+      });
+    }
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+  </script>
+</body>
+</html>

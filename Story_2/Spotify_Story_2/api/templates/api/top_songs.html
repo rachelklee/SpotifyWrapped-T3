@@ -11,6 +11,7 @@
       background-color: #d8ff4d;
       color: black;
       overflow: hidden;
+        transition: opacity 0.5s ease-in; /* Smooth fade transition */
     }
 
     .slideshow-container {
@@ -26,30 +27,30 @@
       width: 40%;
       text-align: left;
       padding-left: 20px;
-        overflow: hidden; /* Ensures scrolling text stays inside the container */
-        position: relative;
-  height: 100%; /* Ensures the container has a fixed height */
+      overflow: hidden; /* Ensures scrolling text stays inside the container */
+      position: relative;
+      height: 100%; /* Ensures the container has a fixed height */
     }
 
-   .scroll-wrapper {
-  display: flex;
-  flex-direction: column;
-  animation: scroll-continuous 10s linear infinite; /* Animation duration and seamless loop */
-}
+    .scroll-wrapper {
+      display: flex;
+      flex-direction: column;
+      animation: scroll-continuous 10s linear infinite; /* Animation duration and seamless loop */
+    }
 
-@keyframes scroll-continuous {
-  0% {
-    transform: translateY(0); /* Start position */
-  }
-  100% {
-    transform: translateY(-50%); /* Moves up by one full height of the content */
-  }
-}
+    @keyframes scroll-continuous {
+      0% {
+        transform: translateY(0); /* Start position */
+      }
+      100% {
+        transform: translateY(-50%); /* Moves up by one full height of the content */
+      }
+    }
 
-.scroll-content {
-  display: flex;
-  flex-direction: column;
-}
+    .scroll-content {
+      display: flex;
+      flex-direction: column;
+    }
 
     .left-section h1 {
       font-size: 4rem;
@@ -58,12 +59,12 @@
     }
 
     .left-section h1:nth-child(odd) {
-    color: black;
-  }
+      color: black;
+    }
 
-  .left-section h1:nth-child(even) {
-    color: magenta;
-  }
+    .left-section h1:nth-child(even) {
+      color: magenta;
+    }
 
     .right-section {
       width: 60%;
@@ -140,7 +141,7 @@
       justify-content: center;
       align-items: center;
       transition: background-color 0.3s, color 0.3s;
-        z-index: 10;
+      z-index: 10;
     }
 
     .arrow::before {
@@ -181,45 +182,81 @@
     .arrow:focus {
       outline: none;
     }
+
+    /* Bottom Arrow Styling */
+    .bottom-arrow {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: magenta;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .bottom-arrow:hover {
+      background-color: black;
+      transform: scale(1.1);
+    }
+
+    .bottom-arrow::after {
+      content: '→'; /* right arrow */
+      font-size: 1.5rem;
+    }
+
+    /* Fade-out transition for bottom arrow */
+    .fade-out {
+      opacity: 0;
+      transition: opacity 0.5s ease-out;
+    }
+
   </style>
 </head>
 <body>
   <div class="slideshow-container">
     <div class="left-section">
-          <div class="scroll-animation">
-      <div class="scroll-wrapper">
-    <!-- First copy of the text -->
-    <div class="scroll-content">
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-    </div>
-    <!-- Second copy of the text for seamless looping -->
-    <div class="scroll-content">
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-    </div>
-  </div>
-</div>
+      <div class="scroll-animation">
+        <div class="scroll-wrapper">
+          <!-- First copy of the text -->
+          <div class="scroll-content">
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+          </div>
+          <!-- Second copy of the text for seamless looping -->
+          <div class="scroll-content">
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+            <h1>Your top songs</h1>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="right-section">
@@ -231,7 +268,7 @@
       {% for wrap in wraps_list|slice:"5:" %}
       <div class="slide {% if forloop.first %}active{% endif %}">
         <img src="{{ wrap.image }}" alt="{{ wrap.album }}">
-          <div class="artist-name">{{ wrap.artist }}</div>
+        <div class="artist-name">{{ wrap.artist }}</div>
         <div class="album-name">{{ wrap.album }}</div>
         <button class="listen-button" onclick="togglePlayPause('{{ wrap.preview_url }}', this)">
           ▶ Play
@@ -247,6 +284,8 @@
     <source id="audio-source" src="" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
+
+  <a href="{% url 'api:top_artist_single' %}" class="bottom-arrow" id="bottomArrow"></a>
 
   <script>
     let currentSlide = 0;
@@ -307,6 +346,15 @@
       const secs = seconds % 60;
       return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
+
+    // Fade out the bottom arrow before redirection
+    document.getElementById('bottomArrow').addEventListener('click', function(event) {
+      event.preventDefault();
+      document.body.classList.add('fade-out');
+      setTimeout(function() {
+        window.location.href = '{% url "api:top_artist_single" %}';
+      }, 500); // Wait for fade-out transition to complete
+    });
   </script>
 </body>
 </html>

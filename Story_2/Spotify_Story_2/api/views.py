@@ -314,6 +314,37 @@ def top_artists(request):
             })
     return render(request, 'api/top_artists.html', {'wraps_list': wraps_list})
 
+@login_required
+def top_artist_single(request):
+    user = request.user
+    if request.user.is_authenticated:  # Ensure the user is logged in
+        user = request.user
+        try:
+            spotify_account = SpotifyAccount.objects.get(user=user)
+            spotify_wraps = spotify_account.wraps
+            #halloween = spotify_account.halloweenwrap
+        except SpotifyAccount.DoesNotExist:
+            spotify_wraps = None  # Handle case where there is no Spotify account
+    else:
+        spotify_wraps = None  # Handle case where user is not logged in
+    single_wraps_list = []
+    if (spotify_wraps != None):
+        for item in spotify_wraps.get('items')[:10]:
+            album = item.get('album').get('name')
+            image = item.get('album').get('images')[0].get('url')
+            artist = item.get('album').get('artists')[0].get('name')
+            preview_url = item.get('preview_url')  # Get the 30-second preview URL
+            print(album + " : " + artist)
+            single_wraps_list.append({
+                'album': album,
+                'artist': artist,
+                'image': image,
+                'preview_url': preview_url  # Include the preview URL
+            })
+        return render(request, 'api/top_artist_single.html', {'single_wraps_list': single_wraps_list[0] if single_wraps_list else None})
+
+
+
 def main(request):
     return create_user(request)
     # return HttpResponse("Hello")
