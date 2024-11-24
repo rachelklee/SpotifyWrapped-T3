@@ -1,0 +1,373 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#  <meta charset="UTF-8">#}
+{#  <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#  <title>Top Artists</title>#}
+{#  <style>#}
+{#    body {#}
+{#      font-family: Arial, sans-serif;#}
+{#      margin: 0;#}
+{#      background-color: #d8ff4d; /* Light green background */#}
+{#      color: black;#}
+{#      overflow: hidden;#}
+{#    }#}
+{##}
+{#    .slideshow-container {#}
+{#      display: flex;#}
+{#      align-items: center;#}
+{#      justify-content: center;#}
+{#      height: 100vh;#}
+{#      width: 100%;#}
+{#    }#}
+{##}
+{#    .left-section {#}
+{#      width: 40%;#}
+{#      text-align: left;#}
+{#      padding-left: 20px;#}
+{#    }#}
+{##}
+{#    .left-section h1 {#}
+{#      font-size: 10rem;#}
+{#      margin: 10px 0;#}
+{#      color: magenta;#}
+{#    }#}
+{##}
+{#    .right-section {#}
+{#      width: 60%;#}
+{#      text-align: center;#}
+{#      position: relative;#}
+{#    }#}
+{##}
+{#    .slide {#}
+{#      display: none;#}
+{#      width: 100%;#}
+{#      max-width: 500px;#}
+{#      margin: 0 auto;#}
+{#    }#}
+{##}
+{#    .slide.active {#}
+{#      display: block;#}
+{#    }#}
+{##}
+{#    .slide .artist-name {#}
+{#      margin-top: 20px;#}
+{#      font-size: 1.5rem;#}
+{#      font-weight: bold;#}
+{#    }#}
+{##}
+{#    .arrow {#}
+{#      position: absolute;#}
+{#      top: 50%;#}
+{#      transform: translateY(-50%);#}
+{#      background: transparent;#}
+{#      border: 2px solid black;#}
+{#      border-radius: 50%;#}
+{#      width: 40px;#}
+{#      height: 40px;#}
+{#      font-size: 1.5rem;#}
+{#      color: black;#}
+{#      cursor: pointer;#}
+{#      display: flex;#}
+{#      justify-content: center;#}
+{#      align-items: center;#}
+{#      transition: background-color 0.3s, color 0.3s;#}
+{#    }#}
+{##}
+{#    .arrow.left {#}
+{#      left: 20px;#}
+{#    }#}
+{##}
+{#    .arrow.right {#}
+{#      right: 20px;#}
+{#    }#}
+{##}
+{#    .arrow:hover {#}
+{#      background-color: black;#}
+{#      color: white;#}
+{#    }#}
+{##}
+{#    .arrow:focus {#}
+{#      outline: none;#}
+{#    }#}
+{#  </style>#}
+{#</head>#}
+{#<body>#}
+{#  <div class="slideshow-container">#}
+{#    <div class="left-section">#}
+{#      <h1>Top Artists</h1>#}
+{#      <h1>Top Artists</h1>#}
+{#      <h1>Top Artists</h1>#}
+{#      <h1>Top Artists</h1>#}
+{#      <h1>Top Artists</h1>#}
+{#      <h1>Top Artists</h1>#}
+{#      <h1>Top Artists</h1>#}
+{#      <h1>Top Artists</h1>#}
+{#      <h1>Top Artists</h1>#}
+{#    </div>#}
+{##}
+{#    <div class="right-section">#}
+{#      <!-- Arrows -->#}
+{#      <button class="arrow left" onclick="changeSlide(-1)">&#8592;</button>#}
+{#      <button class="arrow right" onclick="changeSlide(1)">&#8594;</button>#}
+{##}
+{#      <!-- Slides -->#}
+{#      <div class="slide active">#}
+{#        <div style="background-color: lightgray; width: 100%; height: 300px;"></div>#}
+{#        <div class="artist-name">Artist 1</div>#}
+{#      </div>#}
+{#      <div class="slide">#}
+{#        <div style="background-color: lightgray; width: 100%; height: 300px;"></div>#}
+{#        <div class="artist-name">Artist 2</div>#}
+{#      </div>#}
+{#      <div class="slide">#}
+{#        <div style="background-color: lightgray; width: 100%; height: 300px;"></div>#}
+{#        <div class="artist-name">Artist 3</div>#}
+{#      </div>#}
+{#      <div class="slide">#}
+{#        <div style="background-color: lightgray; width: 100%; height: 300px;"></div>#}
+{#        <div class="artist-name">Artist 4</div>#}
+{#      </div>#}
+{#      <div class="slide">#}
+{#        <div style="background-color: lightgray; width: 100%; height: 300px;"></div>#}
+{#        <div class="artist-name">Artist 5</div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{##}
+{#  <script>#}
+{#    let currentSlide = 0;#}
+{#    const slides = document.querySelectorAll('.slide');#}
+{##}
+{#    function changeSlide(direction) {#}
+{#      slides[currentSlide].classList.remove('active');#}
+{#      currentSlide = (currentSlide + direction + slides.length) % slides.length;#}
+{#      slides[currentSlide].classList.add('active');#}
+{#    }#}
+{#  </script>#}
+{#</body>#}
+{#</html>#}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Artists</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #d8ff4d;
+      color: black;
+      overflow: hidden;
+    }
+
+    .slideshow-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+        position: relative;
+        transition: transform 1s ease-out;
+
+    }
+
+    .left-section {
+      width: 40%;
+      text-align: left;
+      padding-left: 20px;
+    }
+
+    .left-section h1 {
+      font-size: 4rem;
+      margin: 10px 0;
+      color: magenta;
+    }
+
+    .right-section {
+      width: 60%;
+      text-align: center;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      cursor: pointer;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide .artist-name {
+      margin-top: 20px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: black;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+        border: 8px solid magenta;
+      border-radius: 20px;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: 2px solid black;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .arrow::before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      display: inline-block;
+    }
+
+    .arrow.left::before {
+      border-width: 10px 14px 10px 0;
+      border-color: transparent black transparent transparent;
+    }
+
+    .arrow.right::before {
+      border-width: 10px 0 10px 14px;
+      border-color: transparent transparent transparent black;
+    }
+
+    .arrow.left {
+      left: 60px;
+    }
+
+    .arrow.right {
+      right: 60px;
+    }
+
+    .arrow:hover {
+      background-color: black;
+      color: white;
+    }
+
+    .arrow:hover::before {
+      border-color: transparent transparent transparent white;
+    }
+
+    .arrow:focus {
+      outline: none;
+    }
+    /* Bottom Arrow Styling */
+    .bottom-arrow {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: magenta;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .bottom-arrow:hover {
+      background-color: black;
+      transform: scale(1.1);
+    }
+
+    .bottom-arrow::after {
+      content: '↓'; /* right arrow */
+      font-size: 1.5rem;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="slideshow-container">
+    <div class="left-section">
+      <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+        <h1>Your top artists</h1>
+    </div>
+
+    <div class="right-section">
+      <!-- Arrows -->
+      <button class="arrow left" onclick="changeSlide(-1)"></button>
+      <button class="arrow right" onclick="changeSlide(1)"></button>
+
+      <!-- Dynamically Generated Slides -->
+      {% for wrap in wraps_list|slice:"0:5"  %}
+      <div class="slide {% if forloop.first %}active{% endif %}" data-preview-url="{{ wrap.preview_url }}">
+        <div style="background-color: lightgray; width: 100%; height: 100%;"></div>
+          <div>
+              <img src="{{ wrap.image }}" alt="{{ wrap.album }}" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div class="artist-name">{{ wrap.artist }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+<a href="{% url 'api:top_songs' %}" class="bottom-arrow" id = "bottomArrow"></a>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function changeSlide(direction) {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + direction + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+    // Slide transition to top songs page on bottom arrow click
+    document.getElementById('bottomArrow').addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent immediate navigation
+      document.querySelector('.slideshow-container').style.transform = 'translateY(-100%)'; // Slide content down
+
+      // After 1 second (to match transition), navigate to the top songs page
+      setTimeout(function() {
+        window.location.href = event.target.href; // Perform the navigation
+      }, 1000); // Delay to match slide duration
+    });
+  </script>
+</body>
+</html>

@@ -12,9 +12,10 @@ urlpatterns = [
     path('login/', views.login_user, name='login_user'),
     path('logout/', views.logout_user, name='logout_user'),
     path('profile/', views.display_user, name='display_user'),
-    path('halloween/', views.get_halloween_wrap, name='get_halloween_wrap'),
-    path('christmas/', views.get_christmas_wrap, name = 'get_christmas_wrap'),
+    path('get_halloween_wrap/', views.get_halloween_wrap, name='get_halloween_wrap'),
+    path('get_christmas_wrap/', views.get_christmas_wrap, name = 'get_christmas_wrap'),
     path('delete_wraps/', views.delete_wraps, name='delete_wraps'),
     path('contact/', views.contact, name='contact'),
     path('top_songs/', views.top_songs, name='top_songs'),
+    path('top_artists/', views.top_artists, name='top_artists'),
 ]

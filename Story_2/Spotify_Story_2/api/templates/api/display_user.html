@@ -3,201 +3,173 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Styled Slideshow</title>
+  <title>Spotify Wrapped 2024</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    /* General Reset */
+    body, html {
       margin: 0;
-      background-color: #d8ff4d;
-      color: black;
-      overflow: hidden;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      box-sizing: border-box;
+      height: 100%;
+      overflow: hidden; /* Prevent scrolling during animation */
     }
 
-    .slideshow-container {
+    /* Split Screen Layout */
+    .container {
       display: flex;
-        overflow: hidden;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
       height: 100vh;
-      width: 100%;
+      opacity: 1;
+      transition: opacity 1s ease-out;
     }
 
-    .left-section {
-      width: 40%;
-      text-align: left;
-      padding-left: 20px;
-    }
-
-    .left-section h1 {
-        padding: 10px;
-      font-size: 5rem;
-      margin: 10px 0;
-      color: magenta;
-    }
-
-    .right-section {
-
-      width: 60%;
+    /* Top Section: Black Background */
+    .top-section {
+      background-color: black;
+      color: white;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      position: relative;
     }
-
-    .slide {
-      display: none;
-      width: 100%;
-      max-width: 500px;
-      margin: 0 auto;
-      cursor: pointer;
-    }
-
-    .slide.active {
-      display: block;
-    }
-
-    .slide .artist-name {
-      margin-top: 20px;
-      font-size: 1.5rem;
+    .top-section h1 {
+      margin: 0;
+      font-size: 5rem;
       font-weight: bold;
+      line-height: 1.2;
+      text-shadow: 0 0 10px #1db954; /* Adds a glowing effect */
+      border: 2px solid #1db954; /* Green border */
+      padding: 20px; /* Padding around the text inside the border */
+      display: inline-block; /* Ensure border wraps tightly around text */
+      border-radius: 10px; /* Optional rounded border */
     }
 
-    .slide img {
-        width: fit-content;
-        height: fit-content;
-        object-fit: fill;
+    /* Bottom Section: Green Background */
+    .bottom-section {
+      background-color: #1db954;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
-    .slide .album-name {
-      margin-top: 10px;
-      font-size: 1.2rem;
-      color: gray;
+
+    /* Button Styles */
+    .button-container {
+      display: flex;
+      flex-direction: column; /* Stacks the buttons vertically */
+      gap: 20px; /* Adds space between the buttons */
+      align-items: center; /* Centers the buttons horizontally */
     }
 
-.arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: 2px solid black;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s, color 0.3s;
-}
+    .button-christmas {
+      background-color: white;
+      color: #1db954;
+      border: none;
+      padding: 15px 40px; /* Default size */
+      font-size: 1.1rem;  /* Default font size */
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px 0;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
 
-.arrow::before {
-  content: '';
-  width: 0;
-  height: 0;
-  border-style: solid;
-  display: inline-block;
-}
+    /* Make 'Your 2024 Wrapped' Button Larger */
+    .button-large {
+      background-color: white;
+      color: #1db954;
+      border: none;
+      padding: 20px 85px; /* Default size */
+      font-size: 2rem;  /* Default font size */
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      margin: 10px 0;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
 
-.arrow.left::before {
-  border-width: 10px 14px 10px 0;
-  border-color: transparent black transparent transparent;
-}
+    .button-halloween {
+      background-color: white;
+      color: #1db954;
+      border: none;
+      padding: 15px 40px; /* Default size */
+      font-size: 1.1rem;  /* Default font size */
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px 0;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
 
-.arrow.right::before {
-  border-width: 10px 0 10px 14px;
-  border-color: transparent transparent transparent black;
-}
+    .button-halloween:hover {
+      background-color: orange;
+      color: white;
+    }
 
-.arrow.left {
-  left: 60px;
-}
+    .button-christmas:hover {
+      background-color: red;
+      color: white;
+    }
 
-.arrow.right {
-  right: 60px;
-}
+    /* Hover effect for 'button-large' */
+    .button-large:hover {
+      background-color: black; /* Same as other buttons */
+      color: white; /* Change text color on hover */
+    }
 
-.arrow:hover {
-  background-color: black;
-  color: white;
-}
-
-.arrow:hover::before {
-  border-color: transparent transparent transparent white;
-}
-
-.arrow:focus {
-  outline: none;
-}
-
+    /* Spotify Logo */
+    .spotify-logo {
+      margin-top: 30px; /* Adds space between buttons and logo */
+    }
+    .spotify-logo img {
+      width: 80px;
+    }
   </style>
 </head>
 <body>
-  <div class="slideshow-container">
-    <div class="left-section">
-      <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
-        <h1>Your top songs</h1>
-      <h1>Your top songs</h1>
+  <div class="container">
+    <!-- Black Top Section -->
+    <div class="top-section">
+      <h1>Get ready to see<br>your 2024 Wrapped</h1>
     </div>
 
-    <div class="right-section">
-      <!-- Arrows -->
-      <button class="arrow left" onclick="changeSlide(-1)"></button>
-      <button class="arrow right" onclick="changeSlide(1)"></button>
-
-      <!-- Dynamically Generated Slides -->
-      {% for wrap in wraps_list %}
-      <div class="slide {% if forloop.first %}active{% endif %}" data-preview-url="{{ wrap.preview_url }}">
-        <div style="background-color: lightgray; width: 100%; height: 100%;"></div>
-          <div>
-              <img src="{{ wrap.image }}" alt="{{ wrap.album }}" style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-          <div class="album-name">{{ wrap.album }}</div>
-          <div class="artist-name">{{ wrap.artist }}</div>
+    <!-- Green Bottom Section -->
+    <div class="bottom-section">
+      <div class="button-container">
+        <a href="{% url 'api:top_artists' %}" class="button-large" id="wrappedButton">Your 2024 Wrapped →</a>
+        <a href="{% url 'api:get_halloween_wrap' %}" class="button-halloween">Halloween Wrapped →</a>
+        <a href="{% url 'api:get_christmas_wrap' %}" class="button-christmas">Christmas Wrapped →</a>
       </div>
-      {% endfor %}
+      <div class="spotify-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify Logo">
+      </div>
     </div>
   </div>
 
-  <!-- Audio Player -->
-  <audio id="audio-control" style="display: none;">
-    <source id="audio-source" src="" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
   <script>
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.slide');
-    const audioControl = document.getElementById('audio-control');
-    const audioSource = document.getElementById('audio-source');
+    // Add fade-out transition when the "Your 2024 Wrapped" button is clicked
+    document.getElementById('wrappedButton').addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent the default link behavior
+      document.querySelector('.container').style.opacity = '0'; // Apply fade-out effect
 
-    function changeSlide(direction) {
-      // Stop and reset audio playback
-      audioControl.pause();
-      audioControl.currentTime = 0;
-
-      // Change the slide
-      slides[currentSlide].classList.remove('active');
-      currentSlide = (currentSlide + direction + slides.length) % slides.length;
-      slides[currentSlide].classList.add('active');
-    }
-
-    // Play preview on slide click
-    slides.forEach((slide) => {
-      slide.addEventListener('click', () => {
-        const previewUrl = slide.getAttribute('data-preview-url');
-        if (previewUrl) {
-          audioSource.src = previewUrl;
-          audioControl.load();
-          audioControl.play();
-        } else {
-          alert('No preview available for this song.');
-        }
-      });
+      // After 1 second (the fade-out duration), redirect to the new page
+      setTimeout(function() {
+        window.location.href = event.target.href; // Perform the actual navigation
+      }, 1000); // Delay to match the transition duration
     });
   </script>
 </body>
 </html>
+
+
+
+

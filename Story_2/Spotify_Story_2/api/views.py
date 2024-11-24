@@ -113,7 +113,7 @@ def display_user(request):
 
     wraps_list = []
     if (spotify_wraps != None):
-        for item in spotify_wraps.get('items')[:5]:
+        for item in spotify_wraps.get('items')[:10]:
             album = item.get('album').get('name')
             image = item.get('album').get('images')[0].get('url')
             artist = item.get('album').get('artists')[0].get('name')
@@ -125,6 +125,21 @@ def display_user(request):
                 'image': image,
                 'preview_url': preview_url  # Include the preview URL
             })
+
+    # wraps_song_list = []
+    # if (spotify_wraps != None):
+    #     for item in spotify_wraps.get('items')[:5]:
+    #         album = item.get('album').get('name')
+    #         image = item.get('album').get('images')[0].get('url')
+    #         artist = item.get('album').get('artists')[0].get('name')
+    #         preview_url = item.get('preview_url')  # Get the 30-second preview URL
+    #         print(album + " : " + artist)
+    #         wraps_song_list.append({
+    #         'album': album,
+    #         'artist': artist,
+    #         'image': image,
+    #         'preview_url': preview_url  # Include the preview URL
+    #     })
             # print(album + " : " + artist)
             # wraps_list.append(album + " : " + artist)
         # if halloween and 'tracks' in halloween:
@@ -179,8 +194,14 @@ def get_halloween_wrap(request):
              track_name = track['name']
              artist_name = track['artists'][0]['name']
              link = track['artists'][0]['external_urls']['spotify']
+             image_url = track['album']['images'][0]['url']
              print(track_name + " : " + artist_name)
-             halloween_list.append(track_name + " : " + artist_name + " : " + link)
+             halloween_list.append({
+                 'track_name': track_name,
+                 'artist_name': artist_name,
+                 'link': link,
+                 'image_url': image_url,  # Include the image URL
+             })
     return render(request, 'api/display_halloween.html', {'user': user, 'halloween_list': halloween_list})
 
 
@@ -223,16 +244,75 @@ def get_christmas_wrap(request):
              track_name = track['name']
              artist_name = track['artists'][0]['name']
              link = track['artists'][0]['external_urls']['spotify']
+             image_url = track['album']['images'][0]['url']  # Get the album image URL
              print(track_name + " : " + artist_name)
-             christmas_list.append(track_name + " : " + artist_name + " : " + link)
+             christmas_list.append({
+                 'track_name': track_name,
+                 'artist_name': artist_name,
+                 'link': link,
+                 'image_url': image_url,  # Include the image URL
+             })
     return render(request, 'api/display_christmas.html', {'user': user, 'christmas_list': christmas_list})
 
 
 def contact(request):
     return render(request, 'api/contact.html')
 
+@login_required
 def top_songs(request):
-    return render(request)
+    user = request.user
+    wraps_list = []
+
+    if request.user.is_authenticated:  # Ensure the user is logged in
+        try:
+            spotify_account = SpotifyAccount.objects.get(user=user)
+            spotify_wraps = spotify_account.wraps  # Get the wraps data
+        except SpotifyAccount.DoesNotExist:
+            spotify_wraps = None  # Handle case where there is no Spotify account
+
+    if spotify_wraps:
+        for item in spotify_wraps.get('items')[:10]:  # Adjust the number of items as needed
+            album = item.get('album').get('name')
+            image = item.get('album').get('images')[0].get('url')
+            artist = item.get('album').get('artists')[0].get('name')
+            preview_url = item.get('preview_url')  # Get the preview URL
+            wraps_list.append({
+                'album': album,
+                'artist': artist,
+                'image': image,
+                'preview_url': preview_url  # Include the preview URL
+            })
+
+    return render(request, 'api/top_songs.html', {'wraps_list': wraps_list})
+
+@login_required
+def top_artists(request):
+    user = request.user
+    if request.user.is_authenticated:  # Ensure the user is logged in
+        user = request.user
+        try:
+            spotify_account = SpotifyAccount.objects.get(user=user)
+            spotify_wraps = spotify_account.wraps
+            #halloween = spotify_account.halloweenwrap
+        except SpotifyAccount.DoesNotExist:
+            spotify_wraps = None  # Handle case where there is no Spotify account
+    else:
+        spotify_wraps = None  # Handle case where user is not logged in
+    wraps_list = []
+    if (spotify_wraps != None):
+        for item in spotify_wraps.get('items')[:10]:
+            album = item.get('album').get('name')
+            image = item.get('album').get('images')[0].get('url')
+            artist = item.get('album').get('artists')[0].get('name')
+            preview_url = item.get('preview_url')  # Get the 30-second preview URL
+            print(album + " : " + artist)
+            wraps_list.append({
+                'album': album,
+                'artist': artist,
+                'image': image,
+                'preview_url': preview_url  # Include the preview URL
+            })
+    return render(request, 'api/top_artists.html', {'wraps_list': wraps_list})
 
 def main(request):
     return create_user(request)

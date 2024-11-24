@@ -1,50 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>User Profile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Artists - Halloween Edition</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #333; /* Dark background for Halloween */
+      color: white;
+      overflow: hidden;
+      position: relative;
+      background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"%3E%3Ccircle cx="25" cy="25" r="20" fill="orange" /%3E%3C/svg%3E'); /* Pumpkin background */
+      background-size: 50px 50px; /* Repeat pumpkin images */
+      background-position: center center;
+      background-repeat: repeat; /* Repeat the pumpkins in the background */
+    }
+
+    /* Slideshow and design styles */
+    .slideshow-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .left-section {
+      width: 40%;
+      text-align: left;
+      padding-left: 20px;
+    }
+
+    .left-section h1 {
+      font-size: 4rem;
+      margin: 10px 0;
+      color: #fff; /* White */
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Shadow for contrast */
+    }
+
+    .right-section {
+      width: 60%;
+      text-align: center;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      cursor: pointer;
+      border-radius: 15px;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide .artist-name {
+      margin-top: 20px;
+      font-size: 3rem;
+      font-weight: bold;
+      color: white; /* Artist name in black */
+    }
+
+    .slide img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 8px solid purple /* Gold border */
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: 2px solid #fff; /* White arrow border */
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .arrow::before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      display: inline-block;
+    }
+
+    .arrow.left::before {
+      border-width: 10px 14px 10px 0;
+      border-color: transparent white transparent transparent;
+    }
+
+    .arrow.right::before {
+      border-width: 10px 0 10px 14px;
+      border-color: transparent transparent transparent white;
+    }
+
+    .arrow.left {
+      left: 60px;
+    }
+
+    .arrow.right {
+      right: 60px;
+    }
+
+    .arrow:hover {
+      background-color: #e67e22; /* Orange background on hover */
+      color: white;
+    }
+
+    .arrow:hover::before {
+      border-color: transparent transparent transparent white;
+    }
+
+    .arrow:focus {
+      outline: none;
+    }
+
+    /* Bottom Arrow Styling */
+    .bottom-arrow {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #f39c12; /* Gold background */
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .bottom-arrow:hover {
+      background-color: #e67e22; /* Orange hover */
+      transform: scale(1.1);
+    }
+
+    .bottom-arrow::after {
+      content: '➔'; /* Right arrow */
+      font-size: 1.5rem;
+    }
+
+  </style>
 </head>
 <body>
-    <h2>User Profile</h2>
-    <table border="1">
-        <tr>
-            <th>Username</th>
-            <td>{{ user.username }}</td>
-        </tr>
-    </table>
-    <u1>
-        {% for item in halloween_list %}
-            <li>{{ item }}</li>
-        {% endfor %}
-    </u1>
-    <form method="post" action="{% url 'api:delete_wraps' %}">
-        {% csrf_token %}
-        <button type="submit">Delete Wraps</button>
-    </form>
-    <form method="post" action="{% url 'spotify:generate_wrap' %}">
-        {% csrf_token %}
-        <button type="submit">Get Wraps</button>
-    </form>
-    <form method="post" action="{% url 'spotify:generate_halloween_wrap' %}">
-        {% csrf_token %}
-        <button type="submit">Get Halloween Wraps</button>
-    </form>
-    <form method="post" action="{% url 'spotify:generate_christmas_wrap' %}">
-        {% csrf_token %}
-        <button type="submit">Get Christmas Wrap</button>
-    </form>
+  <div class="slideshow-container">
+    <div class="right-section">
+      <!-- Arrows -->
+      <button class="arrow left" onclick="changeSlide(-1)"></button>
+      <button class="arrow right" onclick="changeSlide(1)"></button>
+
+      <!-- Dynamically Generated Slides -->
+      {% for wrap in halloween_list %}
+      <div class="slide {% if forloop.first %}active{% endif %}" data-preview-url="{{ wrap.preview_url }}">
+        <div style="background-color: lightgray; width: 100%; height: 100%;"></div>
+        <div>
+          <img src="{{ wrap.image_url }}" alt="{{ wrap.track_name }}" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="artist-name">{{ wrap.artist_name }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function changeSlide(direction) {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + direction + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+  </script>
 </body>
-<!-- Assuming this is in a base template that’s included on each page -->
-<nav>
-    <ul>
-        <li><a href="{% url 'api:login_user' %}">Login</a></li>
-        <li><a href="{% url 'api:register_user' %}">Register</a></li>
-        <li><a href="{% url 'api:delete_user' %}">Delete Account</a></li>
-        <li><a href="{% url 'api:display_user' %}">User profile</a></li>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'api:logout_user' %}">Logout</a></li>
-        {% endif %}
-    </ul>
-</nav>
-</html>
 </html>
