@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibed All Year</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000; /* Deep black for a night-sky effect */
+      font-family: 'Arial', sans-serif;
+      color: #FF0080; /* Bright pink text */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden; /* Prevent scrolling for the star animation */
+    }
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #fff; /* White stars */
+      border-radius: 50%;
+      animation: twinkle 3s infinite ease-in-out;
+      opacity: 0.7;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .container {
+      z-index: 10; /* Ensure content is on top of the stars */
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #FF0080; /* Bright pink for the text */
+      text-shadow: 0px 0px 8px #FF0080;
+    }
+
+    .highlight {
+      font-weight: bold;
+      font-style: italic;
+      color: #FFD700; /* Bright yellow for emphasis */
+      text-shadow: 0px 0px 10px #FFD700;
+    }
+
+    /* Bottom Button Styling */
+    .bottom-arrow {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: magenta;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .bottom-arrow:hover {
+      background-color: black;
+      transform: scale(1.1);
+    }
+
+    .bottom-arrow::after {
+      content: '→'; /* Right arrow */
+      font-size: 1.5rem;
+    }
+
+    /* Swipe-Left Transition */
+    .fade-out {
+      animation: swipe-left 0.6s forwards;
+    }
+
+    @keyframes swipe-left {
+      0% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+    }
+
+    /* Progress Bar Styling */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.2); /* Light gray background for the progress bar */
+      z-index: 50;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: #FF0080; /* Bright pink */
+      width: 100%;
+      transition: width 0.2s linear;
+    }
+  </style>
+</head>
+<body>
+  <!-- Star field -->
+  <div class="stars">
+    <!-- Generate multiple star elements -->
+    <script>
+      const starsContainer = document.querySelector('.stars');
+      const starCount = 500; // Add more stars by increasing this number
+
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.left = `${Math.random() * 100}vw`; // Random horizontal position
+        star.style.top = `${Math.random() * 100}vh`; // Random vertical position
+        star.style.animationDuration = `${Math.random() * 3 + 2}s`; // Vary twinkle speed
+        star.style.opacity = Math.random(); // Vary initial opacity
+        starsContainer.appendChild(star);
+      }
+    </script>
+  </div>
+
+  <!-- Main content -->
+  <div class="container">
+    <h1>There was <span class="highlight">one</span> artist that you <span class="highlight">really</span> vibed with all year long</h1>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Bottom Button -->
+  <a href="{% url 'api:top_artist_single' %}" class="bottom-arrow" id="bottomArrow"></a>
+
+  <script>
+    const bottomArrow = document.getElementById('bottomArrow');
+    const progressBar = document.getElementById('progressBar');
+    const AUTO_TRANSITION_TIME = 5000; // 20 seconds
+
+    // Function to handle page transition
+    function transitionToNextPage() {
+      document.body.classList.add('fade-out'); // Add swipe-left effect
+      setTimeout(() => {
+        window.location.href = bottomArrow.href; // Navigate after animation
+      }, 600); // Match the animation duration
+    }
+
+    // Countdown for the progress bar
+    let countdownTime = AUTO_TRANSITION_TIME;
+    const countdownInterval = 100; // Update progress bar every 100ms
+    const progressBarStep = countdownInterval / AUTO_TRANSITION_TIME * 100;
+
+    const countdown = setInterval(() => {
+      countdownTime -= countdownInterval;
+      const progressPercentage = (countdownTime / AUTO_TRANSITION_TIME) * 100;
+      progressBar.style.width = `${progressPercentage}%`;
+
+      if (countdownTime <= 0) {
+        clearInterval(countdown); // Stop the countdown
+        transitionToNextPage(); // Trigger transition
+      }
+    }, countdownInterval);
+
+    // Add click event for immediate transition
+    bottomArrow.addEventListener('click', (e) => {
+      e.preventDefault(); // Prevent default navigation
+      clearInterval(countdown); // Stop automatic transition if clicked
+      transitionToNextPage(); // Trigger transition
+    });
+  </script>
+</body>
+</html>

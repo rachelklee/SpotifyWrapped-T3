@@ -343,7 +343,9 @@ def top_artist_single(request):
             })
         return render(request, 'api/top_artist_single.html', {'single_wraps_list': single_wraps_list[0] if single_wraps_list else None})
 
-
+@login_required
+def top_artist_transition(request):
+    return render(request, 'api/top_artist_transition.html')
 
 def main(request):
     return create_user(request)

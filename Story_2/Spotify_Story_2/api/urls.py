@@ -19,4 +19,5 @@ urlpatterns = [
     path('top_songs/', views.top_songs, name='top_songs'),
     path('top_artists/', views.top_artists, name='top_artists'),
     path('top_artist_single/', views.top_artist_single, name='top_artist_single'),
+    path('top_artist_transition/', views.top_artist_transition, name='top_artist_transition'),
 ]

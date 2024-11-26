@@ -300,7 +300,7 @@
     Your browser does not support the audio element.
   </audio>
 
-  <a href="{% url 'api:top_artist_single' %}" class="bottom-arrow" id="bottomArrow"></a>
+  <a href="{% url 'api:top_artist_transition' %}" class="bottom-arrow" id="bottomArrow"></a>
 
   <script>
     let currentSlide = 0;
@@ -367,7 +367,7 @@
       event.preventDefault();
       document.body.classList.add('fade-out');
       setTimeout(function() {
-        window.location.href = '{% url "api:top_artist_single" %}';
+        window.location.href = '{% url "api:top_artist_transition" %}';
       }, 500); // Wait for fade-out transition to complete
     });
   </script>
