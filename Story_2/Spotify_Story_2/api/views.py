@@ -383,6 +383,9 @@ def number_of_artists(request):
                 'artists_wraps_list': artists_wraps_list,
                 'artist_count': count  # Add the count of artists
             })
+
+def end(request):
+    return render(request, 'api/end.html')
 def main(request):
     return create_user(request)
     # return HttpResponse("Hello")
