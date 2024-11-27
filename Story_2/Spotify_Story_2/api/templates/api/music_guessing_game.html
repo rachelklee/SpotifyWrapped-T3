@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Guessing Game</title>
+    <style>
+        .song-option {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Music Guessing Game</h1>
+
+    {% if result %}
+        <p><strong>{{ result }}</strong></p>
+    {% endif %}
+
+    {% if message %}
+        <p><strong>{{ message }}</strong></p>
+    {% else %}
+        <p>Question {{ current_round }}: Listen to the preview and guess which song is the correct one:</p>
+
+        <div>
+            <!-- Audio player for the correct song preview -->
+            <audio id="songPreview" controls>
+                <source src="{{ preview_url }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            {% for option in options %}
+                <div class="song-option">
+                    <label>
+                        <input type="radio" name="song_guess" value="{{ option.name }}" required>
+                        {{ option.name }} by {{ option.artists.0.name }}
+                    </label>
+                </div>
+            {% endfor %}
+
+            <button type="submit">Submit</button>
+        </form>
+    {% endif %}
+</body>
+</html>
