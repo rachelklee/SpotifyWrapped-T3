@@ -250,6 +250,11 @@
   </a>
   <div class="slideshow-container">
     <div class="right-section">
+    <div class="social-share-container">
+        <button class="social-share-button" onclick="shareOnLinkedIn()">Share on LinkedIn</button>
+        <button class="social-share-button" onclick="shareOnTwitter()">Share on Twitter</button>
+    </div>
+
       <!-- Arrows -->
       <button class="arrow left" onclick="changeSlide(-1)"></button>
       <button class="arrow right" onclick="changeSlide(1)"></button>
@@ -296,6 +301,60 @@
 
     // Initialize snowflakes
     createSnowflakes();
+
+    function shareOnLinkedIn() {
+        // Start constructing the text message
+        let text = "Check out my Spotify Wrapped Top 5 Artists!\n\n";
+
+        // Select all slides and loop through them to get artist names
+        document.querySelectorAll('.slide').forEach(slide => {
+            const artistNameElement = slide.querySelector('.artist-name');
+            if (artistNameElement) {
+                const artistName = artistNameElement.innerText;
+                text += `🎶 Artist: ${artistName}\n`;
+            }
+        });
+
+        // Copy the text to the clipboard
+        navigator.clipboard.writeText(text).then(() => {
+            // Alert the user that text has been copied
+            alert("Your Spotify Wrapped details have been copied to your clipboard. Please paste them into your LinkedIn post. Close this popup to redirect to LinkedIn.");
+
+            // Open the LinkedIn sharing window
+            const url = window.location.href;
+            const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}`;
+            window.open(shareUrl, '_blank');
+        }).catch(err => {
+            console.error("Could not copy text: ", err);
+        });
+    }
+
+  function shareOnTwitter() {
+    // Start constructing the text message
+    let text = "Check out my Spotify Wrapped Top 5 Artists!\n\n";
+
+    // Select all slides and loop through them to get artist names
+    document.querySelectorAll('.slide').forEach(slide => {
+        const artistNameElement = slide.querySelector('.artist-name');
+        if (artistNameElement) {
+            const artistName = artistNameElement.innerText;
+            text += `🎶 Artist: ${artistName}\n`;
+        }
+    });
+
+    // Copy the text to the clipboard
+    navigator.clipboard.writeText(text).then(() => {
+        // Alert the user that text has been copied
+        alert("Your Spotify Wrapped details have been copied to your clipboard. Please paste them into your Twitter post. Close this popup to redirect to Twitter.");
+
+        // Open the LinkedIn sharing window
+        const url = window.location.href;
+        const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+        window.open(shareUrl, '_blank');
+    }).catch(err => {
+        console.error("Could not copy text: ", err);
+    });
+    }
   </script>
 </body>
 </html>
