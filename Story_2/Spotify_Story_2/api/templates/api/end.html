@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+    <style>
+        /* Global reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Container for text and buttons */
+        .content-container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* Thank You text */
+        .thank-you {
+            color: white;
+            font-size: 4rem;
+            line-height: 1.5;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff;
+            animation: glowing-text 2s infinite alternate;
+            margin-bottom: 20px;
+        }
+
+        /* Glow animation */
+        @keyframes glowing-text {
+            0% {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00ff, 0 0 20px #ff00ff, 0 0 25px #ff00ff, 0 0 30px #ff00ff;
+                color: #fff;
+            }
+            50% {
+                text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ff00, 0 0 40px #00ff00, 0 0 50px #00ff00, 0 0 60px #00ff00;
+                color: #00ffff;
+            }
+            100% {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff0000, 0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000;
+                color: #ff0000;
+            }
+        }
+
+            .spotify-logo {
+      position: absolute;
+      top: 0px;
+      right: 20px;
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+    }
+
+        /* Buttons styling */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #1ed760;
+            border: 2px solid #fff;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* Background shapes */
+        .shape {
+            position: absolute;
+            z-index: 1;
+            animation: move-shape 10s infinite;
+        }
+
+        .shape-yellow {
+            background-color: #D8FF00;
+            width: 400px;
+            height: 400px;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+            top: 0;
+            left: 0;
+        }
+
+        .shape-pink {
+            background-color: #FF00A2;
+            width: 350px;
+            height: 350px;
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+            bottom: 0%;
+            left: 5%;
+        }
+
+        .shape-blue {
+            background-color: #00FFF0;
+            width: 300px;
+            height: 300px;
+            clip-path: polygon(0 50%, 100% 100%, 50% 0);
+            bottom: -50px;
+            right: 0;
+        }
+
+        .shape-green {
+            background-color: #00FF00;
+            width: 200px;
+            height: 200px;
+            clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+            top: 10%;
+            right: 20%;
+        }
+
+        .shape-orange {
+            background-color: #FF9500;
+            width: 250px;
+            height: 250px;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            top: 60%;
+            left: 15%;
+        }
+
+        .shape-purple {
+            background-color: #A800FF;
+            width: 300px;
+            height: 300px;
+            clip-path: polygon(50% 0, 100% 100%, 0 100%);
+            bottom: 10%;
+            left: 70%;
+        }
+
+        /* Animation for shapes */
+        @keyframes move-shape {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            25% {
+                transform: translate(50px, -50px) scale(1.1) rotate(15deg);
+            }
+            50% {
+                transform: translate(-50px, 50px) scale(0.9) rotate(-10deg);
+            }
+            75% {
+                transform: translate(30px, -30px) scale(1.2) rotate(20deg);
+            }
+            100% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background shapes -->
+    <div class="shape shape-yellow"></div>
+    <div class="shape shape-pink"></div>
+    <div class="shape shape-blue"></div>
+    <div class="shape shape-green"></div>
+    <div class="shape shape-orange"></div>
+    <div class="shape shape-purple"></div>
+
+    <!-- Content container -->
+    <div class="content-container">
+        <!-- Thank You text -->
+        <div class="thank-you">
+            Thank you for another<br>
+            great year with Spotify<br>
+            See you next year!
+        </div>
+        <!-- Buttons -->
+        <div class="buttons">
+            <a href="http://127.0.0.1:8000/api/profile" class="button">Back Home</a>
+            <a href="http://127.0.0.1:8000/api/contact" class="button">Contact Us</a>
+        </div>
+    </div>
+
+    <!-- Spotify logo -->
+<a href="https://www.spotify.com" target="_blank">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg"
+      alt="Spotify Logo"
+      class="spotify-logo"
+    />
+  </a>
+</body>
+</html>

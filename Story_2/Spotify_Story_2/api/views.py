@@ -6,13 +6,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from spotify.models import SpotifyAccount
-from spotify.models import SpotifyWrap
 import json
 from django.utils import timezone
 import datetime
 from datetime import timedelta
-import random
-import html
 
 
 # Create your views here.
@@ -386,71 +383,6 @@ def number_of_artists(request):
                 'artists_wraps_list': artists_wraps_list,
                 'artist_count': count  # Add the count of artists
             })
-
-
-
-@login_required
-def music_guessing_game(request):
-    # Fetch the user's Spotify wrap data (or top 50 tracks if you want to use that)
-    spotify_wrap = SpotifyWrap.objects.filter(user=request.user).first()  # Adjust based on how you store data
-
-    if spotify_wrap:
-        top_tracks = spotify_wrap.wrap_data.get('items', [])  # Example: Get top tracks
-        if len(top_tracks) < 4:
-            top_tracks += top_tracks * (4 - len(top_tracks))  # Duplicate if less than 4 tracks
-
-        # Retrieve the current round from session or initialize it
-        current_round = request.session.get('current_round', 0)
-
-        # Check if all questions have been answered
-        if current_round >= 5:  # For example, 5 questions per game
-            return render(request, 'api/music_guessing_game.html', {'message': 'Game over! Thanks for playing.'})
-
-        # Randomly select one correct song for this round
-        correct_song = random.choice(top_tracks)
-
-        # Select 3 other random songs (ensure they are not the same as the correct one)
-        wrong_songs = random.sample([track for track in top_tracks if track != correct_song], 3)
-
-        # Combine the correct song with the 3 wrong songs to create the options
-        options = [correct_song] + wrong_songs
-        random.shuffle(options)  # Shuffle the options
-
-        # Store the correct song and options in the session to validate later
-        request.session['correct_song'] = correct_song['name']
-        request.session['options'] = [{'name': song['name'], 'artists': song['artists']} for song in options]
-
-        # Increment the current round in session
-        request.session['current_round'] = current_round + 1
-
-        context = {
-            'options': options,
-            'correct_song': correct_song,
-            'preview_url': correct_song['preview_url'],
-            'current_round': current_round + 1,  # Display the current round number
-        }
-
-        if request.method == 'POST':
-            # Get the selected song's name from the form submission
-            selected_song = request.POST.get('song_guess')
-
-            # Compare the selected song with the correct one stored in the session
-            if selected_song == request.session['correct_song']:
-                result = "Correct!"
-            else:
-                result = f"Incorrect. The correct song was: {request.session['correct_song']}"
-
-            # Add the result to the context to display in the template
-            context['result'] = result
-
-            # Optionally, you can store the score here if you want to show a running total
-
-        return render(request, 'api/music_guessing_game.html', context)
-
-    else:
-        return render(request, 'api/music_guessing_game.html', {'error': 'No wrap data found.'})
-
-
 def main(request):
     return create_user(request)
     # return HttpResponse("Hello")
