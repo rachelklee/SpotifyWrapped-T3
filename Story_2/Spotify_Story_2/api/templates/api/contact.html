@@ -18,6 +18,7 @@
             background-color: #bfbfbf;
             color: #000;
             transition: background-color 0.3s, color 0.3s;
+            overflow: hidden;
         }
 
         /* Dark mode styles */
@@ -119,8 +120,8 @@
         /* Contact form */
         .contact-form {
             background-color: #1c1c1c;
-            padding: 30px;
-            margin-top: 10%;
+            padding: 20px;
+            margin-top: 0%;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 90%;
@@ -179,6 +180,44 @@
         .contact-form button:hover {
             background-color: #17b54d;
         }
+
+        /* Team Section */
+        .team-section {
+            margin-top: 10px;
+            width: 100%;
+            max-width: 800px;
+            padding: 5px;
+            background-color: #1c1c1c;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .team-section h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .team-member {
+            margin-bottom: 20px;
+        }
+
+        .team-member h3 {
+            color: #1ed760;
+            margin-bottom: 5px;
+        }
+
+        .team-member p {
+            color: #ccc;
+        }
+
+        body.dark-mode .team-section {
+            background-color: #333;
+        }
+
+        body.halloween-mode .team-section {
+            background-color: #3b0050;
+        }
     </style>
 </head>
 <body>
@@ -214,6 +253,31 @@
                 <textarea id="issue" name="issue" placeholder="Write your issue here..." required></textarea>
                 <button type="submit">Send Email</button>
             </form>
+        </div>
+
+        <!-- Team Section -->
+        <div class="team-section">
+            <h2>Meet the Team</h2>
+            <div class="team-member">
+                <h3>Victor Andrade</h3>
+                <p>Product Owner - Keeps team informed of what the client wants.</p>
+            </div>
+            <div class="team-member">
+                <h3>Shlok Patel</h3>
+                <p>Scrum Master - Sets timelines and ensures tasks are completed.</p>
+            </div>
+            <div class="team-member">
+                <h3>Dalton Rider</h3>
+                <p>Front End - Works to ensure a nice user experience and aesthetic.</p>
+            </div>
+            <div class="team-member">
+                <h3>Rachel Lee</h3>
+                <p>Back End - Creates the functionality that allows the website to function.</p>
+            </div>
+            <div class="team-member">
+                <h3>Ifaz Howlader</h3>
+                <p>Full Stack - Implements the API that allows backend functionality to be possible.</p>
+            </div>
         </div>
     </div>
 
