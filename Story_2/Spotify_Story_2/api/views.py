@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -328,6 +330,7 @@ def top_artist_single(request):
     else:
         spotify_wraps = None  # Handle case where user is not logged in
     single_wraps_list = []
+    count = 0
     if (spotify_wraps != None):
         for item in spotify_wraps.get('items')[:10]:
             album = item.get('album').get('name')
@@ -347,6 +350,39 @@ def top_artist_single(request):
 def top_artist_transition(request):
     return render(request, 'api/top_artist_transition.html')
 
+@login_required
+def number_of_artists(request):
+    user = request.user
+    if request.user.is_authenticated:  # Ensure the user is logged in
+        user = request.user
+        try:
+            spotify_account = SpotifyAccount.objects.get(user=user)
+            spotify_wraps = spotify_account.wraps
+            #halloween = spotify_account.halloweenwrap
+        except SpotifyAccount.DoesNotExist:
+            spotify_wraps = None  # Handle case where there is no Spotify account
+    else:
+        spotify_wraps = None  # Handle case where user is not logged in
+    artists_wraps_list = []
+    count = 0
+    if (spotify_wraps != None):
+        for item in spotify_wraps.get('items'):
+            album = item.get('album').get('name')
+            image = item.get('album').get('images')[0].get('url')
+            artist = item.get('album').get('artists')[0].get('name')
+            preview_url = item.get('preview_url')  # Get the 30-second preview URL
+            count += 1
+            artists_wraps_list.append({
+                'album': album,
+                'artist': artist,
+                'image': image,
+                'preview_url': preview_url  # Include the preview URL
+            })
+
+    return render(request, 'api/number_of_artists.html', {
+                'artists_wraps_list': artists_wraps_list,
+                'artist_count': count  # Add the count of artists
+            })
 def main(request):
     return create_user(request)
     # return HttpResponse("Hello")

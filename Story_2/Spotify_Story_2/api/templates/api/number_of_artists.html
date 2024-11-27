@@ -8,9 +8,9 @@
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(45deg, #ff0080, #ff8c00, #ffcc00, #00ffcc, #8c00ff); /* Vibrant gradient */
-      background-size: 400% 400%; /* Make the gradient move */
-      animation: gradientAnimation 15s ease infinite; /* Animate gradient */
+      background: linear-gradient(45deg, #ff0080, #ff8c00, #ffcc00, #00ffcc, #8c00ff);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
       font-family: 'Arial', sans-serif;
       color: white;
       display: flex;
@@ -22,28 +22,27 @@
       text-align: center;
     }
 
-    /* Animating the gradient background */
+    /* Animated gradient background */
     @keyframes gradientAnimation {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
-    /* Star background */
+    /* Star field with twinkling effect */
     .stars {
       position: absolute;
       width: 100%;
       height: 100%;
       background: transparent;
       overflow: hidden;
-      pointer-events: none;
     }
 
     .star {
       position: absolute;
       width: 2px;
       height: 2px;
-      background: #fff; /* White stars */
+      background: #fff;
       border-radius: 50%;
       animation: twinkle 3s infinite ease-in-out;
       opacity: 0.7;
@@ -54,80 +53,7 @@
       50% { opacity: 1; }
     }
 
-    .container {
-      z-index: 10;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 3rem;
-      font-weight: 400;
-      line-height: 1.5;
-      color: #fff;
-      text-shadow: 0 0 15px #ff0080;
-      animation: textGlow 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes textGlow {
-      0% { text-shadow: 0 0 15px #ff0080, 0 0 25px #ff0080, 0 0 35px #ff0080; }
-      100% { text-shadow: 0 0 25px #fff, 0 0 35px #fff, 0 0 45px #fff; }
-    }
-
-    .highlight {
-      font-weight: bold;
-      font-style: italic;
-      color: #ffd700; /* Yellow */
-      text-shadow: 0px 0px 10px #ffd700;
-    }
-
-    .bottom-arrow {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #ff0080;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 70px;
-      height: 70px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: transform 0.3s, background-color 0.3s;
-          text-decoration: none;
-    }
-
-    .bottom-arrow:hover {
-      background-color: #ffcc00;
-      transform: scale(1.1);
-    }
-
-    .bottom-arrow::after {
-      content: '→';
-      font-size: 2rem;
-    }
-
-    /* Progress Bar Styling */
-    .progress-bar-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 10px;
-      background: rgba(255, 255, 255, 0.2);
-      z-index: 50;
-    }
-
-    .progress-bar {
-      height: 100%;
-      background-color: #ff0080;
-      width: 0%; /* Initially set to 0% */
-      transition: width 0.2s linear;
-    }
-
-    /* Colorful floating shapes in the background */
+    /* Floating shapes in the background */
     .shape {
       position: absolute;
       border-radius: 50%;
@@ -168,35 +94,110 @@
       }
     }
 
+    /* Main content styling */
+    .container {
+      z-index: 10;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #FF0080;
+      text-shadow: 0px 0px 15px #FF0080;
+      animation: textGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 15px #FF0080, 0 0 25px #FF0080, 0 0 35px #FF0080; }
+      100% { text-shadow: 0 0 25px #fff, 0 0 35px #fff, 0 0 45px #fff; }
+    }
+
+    .highlight {
+      font-weight: bold;
+      font-style: italic;
+      color: #FFD700;
+      text-shadow: 0px 0px 10px #FFD700;
+    }
+
+    /* Bottom button styling */
+    .bottom-arrow {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ff0080;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+          text-decoration: none;
+    }
+
+    .bottom-arrow:hover {
+      background-color: #ffcc00;
+      transform: scale(1.1);
+    }
+
+    .bottom-arrow::after {
+      content: '→';
+      font-size: 2rem;
+    }
+
+    /* Progress Bar Styling */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: 50;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: #ff0080;
+      width: 0%;
+      transition: width 0.2s linear;
+    }
+
   </style>
 </head>
 <body>
-  <!-- Stars -->
+  <!-- Star field -->
   <div class="stars">
     <script>
       const starsContainer = document.querySelector('.stars');
-      const starCount = 300; // You can increase this number for more stars
+      const starCount = 500; // Add more stars by increasing this number
 
       for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
-        star.style.left = `${Math.random() * 100}vw`; // Random horizontal position
-        star.style.top = `${Math.random() * 100}vh`; // Random vertical position
-        star.style.animationDuration = `${Math.random() * 3 + 2}s`; // Vary twinkle speed
-        star.style.opacity = Math.random(); // Vary opacity
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        star.style.opacity = Math.random();
         starsContainer.appendChild(star);
       }
     </script>
   </div>
 
-  <!-- Shapes floating -->
+  <!-- Floating shapes -->
   <div class="shape shape1"></div>
   <div class="shape shape2"></div>
   <div class="shape shape3"></div>
 
   <!-- Main content -->
   <div class="container">
-    <h1>But there was <span class="highlight">one</span> artist that you <span class="highlight">really</span> vibed with all year long...</h1>
+    <h1>You have listened to over <span class="highlight">{{ artist_count }}</span> artists in the last year!</h1>
   </div>
 
   <!-- Progress Bar -->
@@ -205,25 +206,22 @@
   </div>
 
   <!-- Bottom Button -->
-  <a href="{% url 'api:top_artist_single' %}" class="bottom-arrow" id="bottomArrow"></a>
+  <a href="{% url 'api:top_artist_transition' %}" class="bottom-arrow" id="bottomArrow"></a>
 
   <script>
     const bottomArrow = document.getElementById('bottomArrow');
     const progressBar = document.getElementById('progressBar');
-    const AUTO_TRANSITION_TIME = 7000; // 5 seconds
+    const AUTO_TRANSITION_TIME = 5000;
 
-    // Function to handle page transition
     function transitionToNextPage() {
-      document.body.classList.add('fade-out'); // Add swipe-left effect
+      document.body.classList.add('fade-out');
       setTimeout(() => {
-        window.location.href = bottomArrow.href; // Navigate after animation
-      }, 600); // Match the animation duration
+        window.location.href = bottomArrow.href;
+      }, 600);
     }
 
-    // Countdown for the progress bar
     let countdownTime = AUTO_TRANSITION_TIME;
     const countdownInterval = 100;
-    const progressBarStep = countdownInterval / AUTO_TRANSITION_TIME * 100;
 
     const countdown = setInterval(() => {
       countdownTime -= countdownInterval;
@@ -232,17 +230,15 @@
 
       if (countdownTime <= 0) {
         clearInterval(countdown);
-        transitionToNextPage(); // Trigger transition
+        transitionToNextPage();
       }
     }, countdownInterval);
 
-    // Add click event for immediate transition
     bottomArrow.addEventListener('click', (e) => {
-      e.preventDefault(); // Prevent default navigation
+      e.preventDefault();
       clearInterval(countdown);
-      transitionToNextPage(); // Trigger transition
+      transitionToNextPage();
     });
   </script>
 </body>
 </html>
-

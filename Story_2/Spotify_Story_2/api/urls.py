@@ -20,4 +20,5 @@ urlpatterns = [
     path('top_artists/', views.top_artists, name='top_artists'),
     path('top_artist_single/', views.top_artist_single, name='top_artist_single'),
     path('top_artist_transition/', views.top_artist_transition, name='top_artist_transition'),
+    path('number_of_artists/', views.number_of_artists, name='number_of_artists'),
 ]
