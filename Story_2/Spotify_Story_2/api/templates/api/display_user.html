@@ -133,6 +133,28 @@
     .spotify-logo img {
       width: 80px;
     }
+
+    /* Social Media Share Buttons */
+    .social-share-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social-share-button {
+      background-color: #1db954;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .social-share-button:hover {
+      background-color: #14833b;
+    }
   </style>
 </head>
 <body>
@@ -145,13 +167,27 @@
     <!-- Green Bottom Section -->
     <div class="bottom-section">
       <div class="button-container">
-        <a href="{% url 'api:top_artists' %}" class="button-large" id="wrappedButton">Your 2024 Wrapped →</a>
-        <a href="{% url 'api:get_halloween_wrap' %}" class="button-halloween">Halloween Wrapped →</a>
-        <a href="{% url 'api:get_christmas_wrap' %}" class="button-christmas">Christmas Wrapped →</a>
+{#        <a href="{% url 'api:top_artists' %}" class="button-large" id="wrappedButton">Your 2024 Wrapped →</a>#}
+{#        <a href="{% url 'api:get_halloween_wrap' %}" class="button-halloween">Halloween Wrapped →</a>#}
+{#        <a href="{% url 'api:get_christmas_wrap' %}" class="button-christmas">Christmas Wrapped →</a>#}
+           <a href="{% url 'api:top_artists' %}" class="button-large" id="wrappedButton">Your 2024 Wrapped &rarr;</a>
+        <a href="{% url 'api:get_halloween_wrap' %}" class="button-halloween">Halloween Wrapped &rarr;</a>
+        <a href="{% url 'api:get_christmas_wrap' %}" class="button-christmas">Christmas Wrapped &rarr;</a>
       </div>
       <div class="spotify-logo">
         <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify Logo">
       </div>
+
+        <div class="social-share-container">
+
+    <button class="social-share-button" id="share-instagram" onclick="shareOnInstagram()">Share on Instagram</button>
+
+    <button class="social-share-button" id="share-linkedin" onclick="shareOnLinkedIn()">Share on LinkedIn</button>
+
+    <button class="social-share-button" id="share-twitter" onclick="shareOnTwitter()">Share on Twitter</button>
+
+  </div>
+
     </div>
   </div>
 

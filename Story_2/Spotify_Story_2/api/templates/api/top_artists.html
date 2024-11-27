@@ -154,6 +154,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="My Spotify Wrapped 2024">
+  <meta property="og:description" content="Check out my 2024 Spotify Wrapped and discover my top songs and artists!">
+{#  <meta property="og:image" content="URL_TO_AN_IMAGE">#}
+<meta property="og:url" content="http://127.0.0.1:8000/api/top_artists/">
   <title>Top Artists</title>
   <style>
     body {
@@ -346,6 +350,28 @@
       cursor: pointer;
     }
 
+        <style>
+  .social-share-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .social-share-button {
+    background-color: #1db954;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .social-share-button:hover {
+    background-color: #14833b;
+  }
+
   </style>
 </head>
 <body>
@@ -397,6 +423,11 @@
 
     <div class="right-section">
       <!-- Arrows -->
+    <div class="social-share-container">
+        <button class="social-share-button" onclick="shareOnLinkedIn()">Share on LinkedIn</button>
+        <button class="social-share-button" onclick="shareOnTwitter()">Share on Twitter</button>
+    </div>
+
       <button class="arrow left" onclick="changeSlide(-1)"></button>
       <button class="arrow right" onclick="changeSlide(1)"></button>
 
@@ -434,6 +465,61 @@
         window.location.href = event.target.href; // Perform the navigation
       }, 1000); // Delay to match slide duration
     });
+
+
+  function shareOnLinkedIn() {
+    // Start constructing the text message
+    let text = "Check out my Spotify Wrapped Top 5 Artists!\n\n";
+
+    // Select all slides and loop through them to get artist names
+    document.querySelectorAll('.slide').forEach(slide => {
+        const artistNameElement = slide.querySelector('.artist-name');
+        if (artistNameElement) {
+            const artistName = artistNameElement.innerText;
+            text += `🎶 Artist: ${artistName}\n`;
+        }
+    });
+
+    // Copy the text to the clipboard
+    navigator.clipboard.writeText(text).then(() => {
+        // Alert the user that text has been copied
+        alert("Your Spotify Wrapped details have been copied to your clipboard. Please paste them into your LinkedIn post. Close this popup to redirect to LinkedIn.");
+
+        // Open the LinkedIn sharing window
+        const url = window.location.href;
+        const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}`;
+        window.open(shareUrl, '_blank');
+    }).catch(err => {
+        console.error("Could not copy text: ", err);
+    });
+}
+
+      function shareOnTwitter() {
+    // Start constructing the text message
+    let text = "Check out my Spotify Wrapped Top 5 Artists!\n\n";
+
+    // Select all slides and loop through them to get artist names
+    document.querySelectorAll('.slide').forEach(slide => {
+        const artistNameElement = slide.querySelector('.artist-name');
+        if (artistNameElement) {
+            const artistName = artistNameElement.innerText;
+            text += `🎶 Artist: ${artistName}\n`;
+        }
+    });
+
+    // Copy the text to the clipboard
+    navigator.clipboard.writeText(text).then(() => {
+        // Alert the user that text has been copied
+        alert("Your Spotify Wrapped details have been copied to your clipboard. Please paste them into your Twitter post. Close this popup to redirect to Twitter.");
+
+        // Open the LinkedIn sharing window
+        const url = window.location.href;
+        const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+        window.open(shareUrl, '_blank');
+    }).catch(err => {
+        console.error("Could not copy text: ", err);
+    });
+}
   </script>
 </body>
 </html>
