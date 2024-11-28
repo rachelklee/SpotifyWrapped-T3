@@ -383,16 +383,17 @@ def number_of_artists(request):
                 'artists_wraps_list': artists_wraps_list,
                 'artist_count': count  # Add the count of artists
             })
-counter = 0
 
+
+counter = 0
 @login_required
 def music_guessing_game(request):
     global counter
-    # Fetch the user's Spotify wrap data (or top 50 tracks if you want to use that)
-    spotify_wrap = SpotifyWrap.objects.filter(user=request.user).first()  # Adjust based on how you store data
+    # Fetch the user's Spotify wrap data
+    spotify_wrap = SpotifyWrap.objects.filter(user=request.user).first()
 
     if spotify_wrap:
-        top_tracks = spotify_wrap.wrap_data.get('items', [])  # Example: Get top tracks
+        top_tracks = spotify_wrap.wrap_data.get('items', [])  # Get top tracks
         if len(top_tracks) < 4:
             top_tracks += top_tracks * (4 - len(top_tracks))  # Duplicate if less than 4 tracks
 
@@ -443,6 +444,7 @@ def music_guessing_game(request):
                 'correct_song': correct_song,  # Pass the correct song for later validation
                 'preview_url': correct_song['preview_url'],  # Pass the preview URL for the correct song
                 'result': result,  # Show the result message on the page
+                'highlight_correct': True  # Add this to highlight the correct answer
             }
 
         else:
@@ -454,6 +456,7 @@ def music_guessing_game(request):
                 'correct_song': correct_song,  # Pass the correct song for later validation
                 'preview_url': correct_song['preview_url'],  # The preview URL of the correct song
                 'result': result,  # No message for the first page load
+                'highlight_correct': False
             }
 
         # Render the game page with the context
@@ -461,6 +464,7 @@ def music_guessing_game(request):
 
     else:
         return render(request, 'api/music_guessing_game.html', {'error': 'No wrap data found.'})
+
 
 
 def end(request):

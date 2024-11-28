@@ -5,19 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Guessing Game</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .correct-cover {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
         .song-option {
-            margin: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .song-option label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            width: 100%;
+        }
+        .song-option input[type="radio"] {
+            margin-right: 15px;
         }
         .correct-answer {
-            color: green; /* Highlight the correct answer in green */
+            color: green;
+            font-weight: bold;
         }
         .incorrect-answer {
-            color: red;  /* Highlight incorrect answers in red */
+            color: red;
+        }
+        .song-details {
+            display: flex;
+            flex-direction: column;
+        }
+        #songPreview {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <h1>Music Guessing Game</h1>
+
+    <!-- Correct Song Cover Added Here -->
+    <img src="{{ correct_song.album.images.0.url }}" alt="{{ correct_song.name }} album cover" class="correct-cover">
+
     <p>Listen to the preview and guess which song is the correct one:</p>
 
     <div>
@@ -35,9 +94,11 @@
                 <label>
                     <input type="radio" name="song_guess" value="{{ option.name }}" required
                         {% if highlight_correct and option.name == correct_song.name %} checked {% endif %}>
-                    <span class="{% if option.name == correct_song.name %}correct-answer{% else %}incorrect-answer{% endif %}">
-                        {{ option.name }} by {{ option.artists.0.name }}
-                    </span>
+                    <div class="song-details">
+                        <span class="{% if option.name == correct_song.name and highlight_correct %}correct-answer{% elif highlight_correct %}incorrect-answer{% endif %}">
+                            {{ option.name }} by {{ option.artists.0.name }}
+                        </span>
+                    </div>
                 </label>
             </div>
         {% endfor %}
@@ -45,7 +106,7 @@
     </form>
 
     {% if result %}
-        <p>{{ result }}</p>
+        <p class="result">{{ result }}</p>
     {% endif %}
 
     <a href="{% url 'api:music_guessing_game' %}">Next Question</a>
