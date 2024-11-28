@@ -8,41 +8,46 @@
         .song-option {
             margin: 10px;
         }
+        .correct-answer {
+            color: green; /* Highlight the correct answer in green */
+        }
+        .incorrect-answer {
+            color: red;  /* Highlight incorrect answers in red */
+        }
     </style>
 </head>
 <body>
     <h1>Music Guessing Game</h1>
+    <p>Listen to the preview and guess which song is the correct one:</p>
+
+    <div>
+        <!-- Audio player for the correct song preview -->
+        <audio id="songPreview" controls>
+            <source src="{{ preview_url }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% for option in options %}
+            <div class="song-option">
+                <label>
+                    <input type="radio" name="song_guess" value="{{ option.name }}" required
+                        {% if highlight_correct and option.name == correct_song.name %} checked {% endif %}>
+                    <span class="{% if option.name == correct_song.name %}correct-answer{% else %}incorrect-answer{% endif %}">
+                        {{ option.name }} by {{ option.artists.0.name }}
+                    </span>
+                </label>
+            </div>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
 
     {% if result %}
-        <p><strong>{{ result }}</strong></p>
+        <p>{{ result }}</p>
     {% endif %}
 
-    {% if message %}
-        <p><strong>{{ message }}</strong></p>
-    {% else %}
-        <p>Question {{ current_round }}: Listen to the preview and guess which song is the correct one:</p>
-
-        <div>
-            <!-- Audio player for the correct song preview -->
-            <audio id="songPreview" controls>
-                <source src="{{ preview_url }}" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-
-        <form method="POST">
-            {% csrf_token %}
-            {% for option in options %}
-                <div class="song-option">
-                    <label>
-                        <input type="radio" name="song_guess" value="{{ option.name }}" required>
-                        {{ option.name }} by {{ option.artists.0.name }}
-                    </label>
-                </div>
-            {% endfor %}
-
-            <button type="submit">Submit</button>
-        </form>
-    {% endif %}
+    <a href="{% url 'api:music_guessing_game' %}">Next Question</a>
 </body>
 </html>

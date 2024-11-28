@@ -5,12 +5,12 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from spotify.models import SpotifyAccount
+from spotify.models import SpotifyAccount, SpotifyWrap
 import json
 from django.utils import timezone
 import datetime
 from datetime import timedelta
-
+import random
 
 # Create your views here.
 def register_user(request):
@@ -383,6 +383,85 @@ def number_of_artists(request):
                 'artists_wraps_list': artists_wraps_list,
                 'artist_count': count  # Add the count of artists
             })
+counter = 0
+
+@login_required
+def music_guessing_game(request):
+    global counter
+    # Fetch the user's Spotify wrap data (or top 50 tracks if you want to use that)
+    spotify_wrap = SpotifyWrap.objects.filter(user=request.user).first()  # Adjust based on how you store data
+
+    if spotify_wrap:
+        top_tracks = spotify_wrap.wrap_data.get('items', [])  # Example: Get top tracks
+        if len(top_tracks) < 4:
+            top_tracks += top_tracks * (4 - len(top_tracks))  # Duplicate if less than 4 tracks
+
+        # Get the current question number, defaults to 0 if not set
+        current_question = request.session.get('current_question', 0)
+
+        # Randomly select one correct song for this round
+        correct_song = top_tracks[current_question]
+
+        # Select 3 other random songs (ensure they are not the same as the correct one)
+        wrong_songs = random.sample([track for track in top_tracks if track != correct_song], 3)
+
+        # Combine the correct song with the 3 wrong songs to create the options
+        options = [correct_song] + wrong_songs
+        random.shuffle(options)  # Shuffle the options
+
+        if request.method == 'POST':
+            # Get the selected song's name from the form submission
+            selected_song = request.POST.get('song_guess')
+
+            # Handle result message logic
+            if current_question == 0:
+                # On the first question, don't show any message until after the user answers
+                if selected_song == correct_song['name']:
+                    result = "Correct!"  # Just in case the first guess is correct
+            else:
+                # For subsequent questions, compare the selected song with the correct answer
+                correct_answer = request.session.get('correct_answer', None)
+                if selected_song == correct_answer:
+                    result = "Correct!"  # User selected the correct song
+                else:
+                    if counter == 0:
+                        result = "Good Luck!"
+                        counter += 1
+                    else:
+                        result = f"Incorrect. The correct song was: {correct_answer}"
+
+            # Move to the next song (increment the current question index)
+            next_question = (current_question + 1) % len(top_tracks)  # Loop back if we reach the end
+            request.session['current_question'] = next_question  # Store the next question in the session
+
+            # Save the correct answer for the next question
+            request.session['correct_answer'] = correct_song['name']
+
+            # Add the result to the context to display in the template
+            context = {
+                'options': options,
+                'correct_song': correct_song,  # Pass the correct song for later validation
+                'preview_url': correct_song['preview_url'],  # Pass the preview URL for the correct song
+                'result': result,  # Show the result message on the page
+            }
+
+        else:
+            # Initial page load (without form submission)
+            result = None  # No result message on the first load
+
+            context = {
+                'options': options,
+                'correct_song': correct_song,  # Pass the correct song for later validation
+                'preview_url': correct_song['preview_url'],  # The preview URL of the correct song
+                'result': result,  # No message for the first page load
+            }
+
+        # Render the game page with the context
+        return render(request, 'api/music_guessing_game.html', context)
+
+    else:
+        return render(request, 'api/music_guessing_game.html', {'error': 'No wrap data found.'})
+
 
 def end(request):
     return render(request, 'api/end.html')
