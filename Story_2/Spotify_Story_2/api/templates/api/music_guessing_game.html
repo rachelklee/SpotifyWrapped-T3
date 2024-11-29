@@ -12,6 +12,13 @@
             padding: 20px;
             background-color: #f4f4f4;
         }
+        .points {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 10px;
+            text-align: center;
+        }
         .correct-cover {
             width: 300px;
             height: 300px;
@@ -39,13 +46,6 @@
         .song-option input[type="radio"] {
             margin-right: 15px;
         }
-        .correct-answer {
-            color: green;
-            font-weight: bold;
-        }
-        .incorrect-answer {
-            color: red;
-        }
         .song-details {
             display: flex;
             flex-direction: column;
@@ -61,6 +61,8 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            display: block;
+            margin: 20px auto;
         }
         button:hover {
             background-color: #45a049;
@@ -68,16 +70,29 @@
         .result {
             margin-top: 15px;
             font-weight: bold;
+            text-align: center;
+        }
+        .next-question {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #4CAF50;
         }
     </style>
 </head>
 <body>
-    <h1>Music Guessing Game</h1>
+    <h1 style="text-align: center;">Music Guessing Game</h1>
+
+    <!-- Points Display -->
+    <div class="points">
+        Points: {{ points }}
+    </div>
 
     <!-- Correct Song Cover Added Here -->
     <img src="{{ correct_song.album.images.0.url }}" alt="{{ correct_song.name }} album cover" class="correct-cover">
 
-    <p>Listen to the preview and guess which song is the correct one:</p>
+    <p style="text-align: center;">Listen to the preview and guess which song is the correct one:</p>
 
     <div>
         <!-- Audio player for the correct song preview -->
@@ -92,10 +107,9 @@
         {% for option in options %}
             <div class="song-option">
                 <label>
-                    <input type="radio" name="song_guess" value="{{ option.name }}" required
-                        {% if highlight_correct and option.name == correct_song.name %} checked {% endif %}>
+                    <input type="radio" name="song_guess" value="{{ option.name }}" required>
                     <div class="song-details">
-                        <span class="{% if option.name == correct_song.name and highlight_correct %}correct-answer{% elif highlight_correct %}incorrect-answer{% endif %}">
+                        <span>
                             {{ option.name }} by {{ option.artists.0.name }}
                         </span>
                     </div>
@@ -109,6 +123,6 @@
         <p class="result">{{ result }}</p>
     {% endif %}
 
-    <a href="{% url 'api:music_guessing_game' %}">Next Question</a>
+    <a href="{% url 'api:music_guessing_game' %}" class="next-question">Next Question</a>
 </body>
 </html>

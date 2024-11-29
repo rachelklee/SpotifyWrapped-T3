@@ -385,10 +385,8 @@ def number_of_artists(request):
             })
 
 
-counter = 0
 @login_required
 def music_guessing_game(request):
-    global counter
     # Fetch the user's Spotify wrap data
     spotify_wrap = SpotifyWrap.objects.filter(user=request.user).first()
 
@@ -397,8 +395,9 @@ def music_guessing_game(request):
         if len(top_tracks) < 4:
             top_tracks += top_tracks * (4 - len(top_tracks))  # Duplicate if less than 4 tracks
 
-        # Get the current question number, defaults to 0 if not set
+        # Get the current question number and points, defaults to 0 if not set
         current_question = request.session.get('current_question', 0)
+        points = request.session.get('points', 0)
 
         # Randomly select one correct song for this round
         correct_song = top_tracks[current_question]
@@ -414,22 +413,17 @@ def music_guessing_game(request):
             # Get the selected song's name from the form submission
             selected_song = request.POST.get('song_guess')
 
-            # Handle result message logic
-            if current_question == 0:
-                # On the first question, don't show any message until after the user answers
-                if selected_song == correct_song['name']:
-                    result = "Correct!"  # Just in case the first guess is correct
+            # Compare the selected song with the correct answer
+            correct_answer = request.session.get('correct_answer', None)
+            if selected_song == correct_answer:
+                # Award a point for correct guess
+                points += 1
+                result = "You got a point! Continue!"
             else:
-                # For subsequent questions, compare the selected song with the correct answer
-                correct_answer = request.session.get('correct_answer', None)
-                if selected_song == correct_answer:
-                    result = "Correct!"  # User selected the correct song
-                else:
-                    if counter == 0:
-                        result = "Good Luck!"
-                        counter += 1
-                    else:
-                        result = f"Incorrect. The correct song was: {correct_answer}"
+                result = "Choose the correct answer."
+
+            # Update points in the session
+            request.session['points'] = points
 
             # Move to the next song (increment the current question index)
             next_question = (current_question + 1) % len(top_tracks)  # Loop back if we reach the end
@@ -441,21 +435,24 @@ def music_guessing_game(request):
             # Add the result to the context to display in the template
             context = {
                 'options': options,
-                'correct_song': correct_song,  # Pass the correct song for later validation
-                'preview_url': correct_song['preview_url'],  # Pass the preview URL for the correct song
-                'result': result,  # Show the result message on the page
-                'highlight_correct': True  # Add this to highlight the correct answer
+                'correct_song': correct_song,
+                'preview_url': correct_song['preview_url'],
+                'result': result,
+                'points': points,
+                'highlight_correct': False
             }
 
         else:
             # Initial page load (without form submission)
-            result = None  # No result message on the first load
+            # Reset points to 0 on first load
+            request.session['points'] = 0
 
             context = {
                 'options': options,
-                'correct_song': correct_song,  # Pass the correct song for later validation
-                'preview_url': correct_song['preview_url'],  # The preview URL of the correct song
-                'result': result,  # No message for the first page load
+                'correct_song': correct_song,
+                'preview_url': correct_song['preview_url'],
+                'result': None,
+                'points': 0,
                 'highlight_correct': False
             }
 
@@ -464,9 +461,6 @@ def music_guessing_game(request):
 
     else:
         return render(request, 'api/music_guessing_game.html', {'error': 'No wrap data found.'})
-
-
-
 def end(request):
     return render(request, 'api/end.html')
 def main(request):
