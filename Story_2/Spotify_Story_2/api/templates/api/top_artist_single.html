@@ -147,6 +147,43 @@
       height: 100px;
       cursor: pointer;
     }
+                /* Bottom Arrow Styling */
+    .bottom-arrow {
+        z-index: 100;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: magenta;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .bottom-arrow:hover {
+      background-color: black;
+      transform: scale(1.1);
+    }
+
+    .bottom-arrow::after {
+      content: '→'; /* right arrow */
+      font-size: 1.5rem;
+    }
+
+    /* Fade-out transition for bottom arrow */
+    .fade-out {
+      opacity: 0;
+      transition: opacity 0.5s ease-out;
+    }
 
   </style>
 </head>
@@ -233,6 +270,8 @@
     Your browser does not support the audio element.
   </audio>
 
+  <a href="{% url 'api:end' %}" class="bottom-arrow" id="bottomArrow"></a>
+
   <script>
     const audioControl = document.getElementById('audio-control');
     const audioSource = document.getElementById('audio-source');
@@ -279,6 +318,13 @@
       const secs = seconds % 60;
       return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
+        document.getElementById('bottomArrow').addEventListener('click', function(event) {
+      event.preventDefault();
+      document.body.classList.add('fade-out');
+      setTimeout(function() {
+        window.location.href = '{% url "api:end" %}';
+      }, 500);
+    });
   </script>
 </body>
 </html>
