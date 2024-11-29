@@ -283,12 +283,26 @@
 
     <script>
         // Function to toggle the dropdown menu visibility
+        /**
+     * Toggles the visibility of the dropdown menu.
+     *
+     * This function shows or hides the dropdown menu when the user
+     * clicks on the menu icon in the header.
+     */
         function toggleDropdown() {
             const dropdown = document.getElementById('dropdownMenu');
             dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
         }
 
         // JavaScript function to handle form submission and send email
+        /**
+     * Handles form submission to send an email.
+     *
+     * This function captures the user's input from the contact form and triggers
+     * the default email client to send an email with the user's issue details.
+     *
+     * @param {Event} event - The event object associated with form submission.
+     */
         function sendEmail(event) {
             event.preventDefault(); // Prevent default form submission
 
@@ -302,6 +316,12 @@
         }
 
         // Apply the current color mode from localStorage
+         /**
+     * Sets the color mode of the website.
+     *
+     * This function applies the user's preferred color mode (light, dark, or Halloween) to the website.
+     * The preference is retrieved from localStorage and the corresponding class is added to the body element.
+     */
         function setColorMode() {
             const mode = localStorage.getItem("color-mode") || "light";
             document.body.classList.remove("dark-mode", "halloween-mode");
@@ -313,6 +333,12 @@
         }
 
         // Initialize color mode on page load
+         /**
+     * Initializes the website on page load.
+     *
+     * This function is called when the window loads, and it sets the appropriate
+     * color mode for the website based on the user's saved preference.
+     */
         window.onload = function() {
             setColorMode();
         };
