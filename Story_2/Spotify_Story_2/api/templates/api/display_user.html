@@ -193,6 +193,15 @@
 
   <script>
     // Add fade-out transition when the "Your 2024 Wrapped" button is clicked
+    /**
+     * Adds a fade-out transition when the "Your 2024 Wrapped" button is clicked.
+     *
+     * This function listens for a click on the "Your 2024 Wrapped" button,
+     * prevents the default navigation behavior, applies a fade-out effect to the page,
+     * and redirects to the new page after the fade-out transition is complete.
+     *
+     * @param {Event} event - The click event associated with the button.
+     */
     document.getElementById('wrappedButton').addEventListener('click', function(event) {
       event.preventDefault(); // Prevent the default link behavior
       document.querySelector('.container').style.opacity = '0'; // Apply fade-out effect
