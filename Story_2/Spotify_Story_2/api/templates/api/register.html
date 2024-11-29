@@ -263,6 +263,14 @@
             }
         };
 
+        /**
+     * Sets the language for the registration page based on the selected language.
+     *
+     * This function updates the text content and placeholder values of the page elements
+     * according to the provided language. It also sets the value of the language selector.
+     *
+     * @param {string} language - The selected language code (e.g., "en", "es", "fr").
+     */
         function setLanguage(language) {
             const translation = translations[language];
 
@@ -276,12 +284,24 @@
             document.getElementById("language").value = language;
         }
 
+        /**
+     * Handles the language change event when the user selects a different language.
+     *
+     * This function saves the selected language in localStorage and updates the page
+     * to reflect the new language selection.
+     */
         function onLanguageChange() {
             const selectedLanguage = document.getElementById("language").value;
             localStorage.setItem("language", selectedLanguage); // Save the selected language
             setLanguage(selectedLanguage); // Apply the selected language immediately
         }
 
+        /**
+     * Sets the color mode of the page based on the saved preference in localStorage.
+     *
+     * This function checks the saved color mode (light, dark, or Halloween) and
+     * applies the appropriate class to the body element.
+     */
         function setColorMode() {
             const mode = localStorage.getItem("color-mode") || "light"; // Default to light mode
             document.body.classList.remove("dark-mode", "halloween-mode");
@@ -294,6 +314,12 @@
             document.getElementById("color-mode").value = mode;
         }
 
+        /**
+     * Handles the color mode change event when the user selects a different mode.
+     *
+     * This function saves the selected mode in localStorage and updates the page
+     * to reflect the new color mode selection.
+     */
         function onColorModeChange() {
             const mode = document.getElementById("color-mode").value;
             localStorage.setItem("color-mode", mode); // Save the selected mode
@@ -301,6 +327,12 @@
         }
 
         // Initialize default language (English) and apply saved color mode
+        /**
+     * Initializes the default language and color mode when the page is loaded.
+     *
+     * This function runs when the window is loaded, retrieving the saved language and color mode
+     * from localStorage and applying them to the page.
+     */
         window.onload = function() {
             const savedLanguage = localStorage.getItem("language") || "en";
             setLanguage(savedLanguage); // Apply saved language
