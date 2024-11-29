@@ -5,6 +5,15 @@
 <head>
     <title>Logging Out...</title>
     <script>
+        /**
+     * Logs the user out of Spotify and redirects to the login page.
+     *
+     * This function is executed when the window is loaded. It opens Spotify's logout page
+     * in a new tab to ensure the user is logged out of their Spotify account. After a short
+     * delay, it redirects the user back to the login page of the application.
+     *
+     * The delay allows time for Spotify's logout to complete before redirecting.
+     */
         window.onload = function() {
             // Open the Spotify logout page in a new tab
             window.open('https://accounts.spotify.com/logout', '_blank');
