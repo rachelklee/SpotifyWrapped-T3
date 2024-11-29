@@ -9,6 +9,18 @@ from datetime import timedelta
 import json
 
 def spotify_login(request):
+    """
+       Redirect the user to Spotify's authorization page.
+
+       This function initiates the authorization process by redirecting the user to the
+       Spotify login page, allowing the application to gain access to the user's Spotify data.
+
+       Args:
+           request (HttpRequest): The HTTP request object.
+
+       Returns:
+           HttpResponseRedirect: Redirects the user to Spotify's authorization URL.
+       """
     # Redirect user to Spotify's authorization page
     spotify_account = SpotifyAccount.objects.get(user=request.user)
     REDIRECT_URI="http://127.0.0.1:8000/spotify/callback"
@@ -22,6 +34,18 @@ def spotify_login(request):
     return redirect(auth_url)
 
 def spotify_callback(request):
+    """
+       Handle Spotify's callback after user authorization.
+
+       This function retrieves the authorization code from Spotify and exchanges it
+       for an access token and refresh token, which are then saved in the SpotifyAccount model.
+
+       Args:
+           request (HttpRequest): The HTTP request object containing the authorization code.
+
+       Returns:
+           HttpResponseRedirect: Redirects the user to the wrap generation page.
+       """
     # Get the authorization code from Spotify
     spotify_account = SpotifyAccount.objects.get(user=request.user)
     code = request.GET.get('code')
@@ -47,6 +71,18 @@ def spotify_callback(request):
 
 @login_required
 def generate_wrap(request):
+    """
+        Generate a Spotify music wrap for the user.
+
+        This function fetches the user's top Spotify tracks and stores the wrap data
+        in the SpotifyWrap model for future retrieval.
+
+        Args:
+            request (HttpRequest): The HTTP request object containing the current user.
+
+        Returns:
+            HttpResponseRedirect: Redirects the user to the page that displays the wrap data.
+        """
     # Fetch and display Spotify data
     user = request.user
     spotify_account = SpotifyAccount.objects.get(user=user)
@@ -70,6 +106,18 @@ def generate_wrap(request):
 
 def refresh_token(spotify_account):
     # Refresh Spotify access token
+    """
+        Refresh the Spotify access token.
+
+        This function refreshes the user's Spotify access token when it has expired,
+        allowing continued access to Spotify data.
+
+        Args:
+            spotify_account (SpotifyAccount): The user's Spotify account model instance.
+
+        Returns:
+            None
+        """
     token_url = 'https://accounts.spotify.com/api/token'
     response = requests.post(token_url, data={
         'grant_type': 'refresh_token',
